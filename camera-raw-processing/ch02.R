@@ -42,3 +42,14 @@ for (y in seq(1, h, 2)) {
 }
 
 dms_img %>% ta %>% as.cimg %>% plot
+
+# 処理の高速化
+simple_demosaic <- function(raw_array) {
+  dms_img <- array(0, c(dim(raw_array) / 2, 1, 3))
+  dms_img[,, 1, 3] <- raw_array[c(T, F), c(T, F)]
+  dms_img[,, 1, 2] <- (raw_array[c(T, F), c(F, T)] + raw_array[c(F, T), c(T, F)]) / 2
+  dms_img[,, 1, 1] <- raw_array[c(F, T), c(F, T)]
+  dms_img
+}
+
+raw_array %>% simple_demosaic %>% ta %>% as.cimg %>% plot
