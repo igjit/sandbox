@@ -53,3 +53,23 @@ simple_demosaic <- function(raw_array) {
 }
 
 raw_array %>% simple_demosaic %>% ta %>% as.cimg %>% plot
+
+# ホワイトバランス補正
+white_balance <- function(raw_array, wb_gain, raw_colors) {
+  norm <- wb_gain[2]
+  gain_matrix <- array(0, c(dim(raw_array)))
+  for (color in 0:3) {
+    gain_matrix[raw_colors == color] <- wb_gain[color + 1] / norm
+  }
+  raw_array * gain_matrix
+}
+
+gain <- raw$camera_whitebalance
+colors <- raw$raw_colors
+dms_img <- white_balance(raw_array, gain, colors) %>% simple_demosaic
+
+dms_img <- dms_img / 1024
+dms_img[dms_img < 0] <- 0
+dms_img[dms_img > 1] <- 1
+
+dms_img %>% ta %>% as.cimg %>% plot
