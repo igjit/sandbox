@@ -68,8 +68,11 @@ gain <- raw$camera_whitebalance
 colors <- raw$raw_colors
 dms_img <- white_balance(raw_array, gain, colors) %>% simple_demosaic
 
-dms_img <- dms_img / 1024
-dms_img[dms_img < 0] <- 0
-dms_img[dms_img > 1] <- 1
+normalize <- function(img) {
+  img <- img / 1024
+  img[img < 0] <- 0
+  img[img > 1] <- 1
+  img
+}
 
-dms_img %>% ta %>% as.cimg %>% plot
+dms_img %>% normalize %>% ta %>% as.cimg %>% plot
