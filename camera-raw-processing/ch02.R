@@ -76,3 +76,21 @@ normalize <- function(img) {
 }
 
 dms_img %>% normalize %>% ta %>% as.cimg %>% plot
+
+# ブラックレベル補正
+blc <- raw$black_level_per_channel
+
+black_level_correction <- function(raw_array, blc, pattern) {
+  raw_array[c(T, F), c(T, F)] <- raw_array[c(T, F), c(T, F)] - blc[pattern[1, 1] + 1]
+  raw_array[c(T, F), c(F, T)] <- raw_array[c(T, F), c(F, T)] - blc[pattern[1, 2] + 1]
+  raw_array[c(F, T), c(T, F)] <- raw_array[c(F, T), c(T, F)] - blc[pattern[2, 1] + 1]
+  raw_array[c(F, T), c(F, T)] <- raw_array[c(F, T), c(F, T)] - blc[pattern[2, 2] + 1]
+  raw_array
+}
+
+dms_img <- raw_array %>%
+  black_level_correction(blc, raw$raw_pattern) %>%
+  white_balance(raw$camera_whitebalance, raw$raw_colors) %>%
+  simple_demosaic
+
+dms_img %>% normalize %>% ta %>% as.cimg %>% plot
