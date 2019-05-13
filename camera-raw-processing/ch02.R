@@ -95,3 +95,18 @@ dms_img <- raw_array %>%
   simple_demosaic
 
 dms_img %>% normalize %>% ta %>% as.cimg %>% plot
+
+# ガンマ補正
+
+# ガンマカーブ
+curve(x ^ 2.2, 0, 1)
+# ガンマ補正カーブ
+curve(x ^ (1 / 2.2), 0, 1)
+
+gamma_correction <- function(input_img, gamma) {
+  input_img[input_img < 0] <- 0
+  input_img[input_img > 1] <- 1
+  input_img ^ (1 / gamma)
+}
+
+dms_img %>% normalize %>% gamma_correction(2.2) %>% ta %>% as.cimg %>% plot
