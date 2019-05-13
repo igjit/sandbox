@@ -81,10 +81,11 @@ dms_img %>% normalize %>% ta %>% as.cimg %>% plot
 blc <- raw$black_level_per_channel
 
 black_level_correction <- function(raw_array, blc, pattern) {
-  raw_array[c(T, F), c(T, F)] <- raw_array[c(T, F), c(T, F)] - blc[pattern[1, 1] + 1]
-  raw_array[c(T, F), c(F, T)] <- raw_array[c(T, F), c(F, T)] - blc[pattern[1, 2] + 1]
-  raw_array[c(F, T), c(T, F)] <- raw_array[c(F, T), c(T, F)] - blc[pattern[2, 1] + 1]
-  raw_array[c(F, T), c(F, T)] <- raw_array[c(F, T), c(F, T)] - blc[pattern[2, 2] + 1]
+  pattern <- pattern + 1
+  raw_array[c(T, F), c(T, F)] <- raw_array[c(T, F), c(T, F)] - blc[pattern[1, 1]]
+  raw_array[c(T, F), c(F, T)] <- raw_array[c(T, F), c(F, T)] - blc[pattern[1, 2]]
+  raw_array[c(F, T), c(T, F)] <- raw_array[c(F, T), c(T, F)] - blc[pattern[2, 1]]
+  raw_array[c(F, T), c(F, T)] <- raw_array[c(F, T), c(F, T)] - blc[pattern[2, 2]]
   raw_array
 }
 
