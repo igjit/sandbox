@@ -26,3 +26,13 @@ dy1 <- 100
 par(mfrow = c(1, 2))
 gmm_img %>% ta %>% as.cimg %>% imsub(x %inr% c(x1, x1 + dx1), y %inr% c(y1, y1 + dy1)) %>% plot(interpolate = FALSE)
 jpg_img %>% imsub(x %inr% (c(x1, x1 + dx1) * 2), y %inr% (c(y1, y1 + dy1) * 2)) %>% plot(interpolate = FALSE)
+
+mirror <- function(x, min, max) {
+  if (x < min) {
+    min - x
+  } else if (x >= max) {
+    2 * max - x - 2
+  } else {
+    x
+  }
+}
