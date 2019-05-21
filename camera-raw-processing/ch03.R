@@ -75,3 +75,8 @@ demosaic <- function(raw_array, raw_colors, pattern) {
 dms_full_img <- wb_raw %>% demosaic(raw$raw_colors, raw$raw_pattern)
 gmm_full_img <- gamma_correction(dms_full_img / white_level, 2.2)
 gmm_full_img %>% ta %>% as.cimg %>% plot
+
+# 比較
+par(mfrow = c(1, 2))
+gmm_img %>% ta %>% as.cimg %>% imsub(x %inr% c(x1, x1 + dx1), y %inr% c(y1, y1 + dy1)) %>% plot(interpolate = FALSE)
+gmm_full_img %>% ta %>% as.cimg %>% imsub(x %inr% (c(x1, x1 + dx1) * 2), y %inr% (c(y1, y1 + dy1) * 2)) %>% plot(interpolate = FALSE)
