@@ -30,7 +30,7 @@ jpg_img %>% imsub(x %inr% (c(x1, x1 + dx1) * 2), y %inr% (c(y1, y1 + dy1) * 2)) 
 mirror <- function(x, min, max) {
   if (x < min) {
     min - x
-  } else if (x >= max) {
+  } else if (x > max) {
     2 * max - x - 2
   } else {
     x
