@@ -5,9 +5,10 @@ raw <- rawpy$imread(raw_file)
 raw_array <- raw$raw_image
 white_level <- 1024
 
-dms_img <- raw_array %>%
+wb_raw <- raw_array %>%
   black_level_correction(raw$black_level_per_channel, raw$raw_pattern) %>%
-  white_balance(raw$camera_whitebalance, raw$raw_colors) %>%
+  white_balance(raw$camera_whitebalance, raw$raw_colors)
+dms_img <- wb_raw %>%
   simple_demosaic %>%
   `/`(white_level)
 gmm_img <- gamma_correction(dms_img, 2.2)
