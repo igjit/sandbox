@@ -39,7 +39,7 @@ mirror <- function(x, min, max) {
   }
 }
 
-demosaic <- function(raw_array, raw_colors, pattern) {
+.demosaic <- function(raw_array, raw_colors, pattern) {
   h <- nrow(raw_array)
   w <- ncol(raw_array)
   dms_img <- array(0, c(h, w, 1, 3))
@@ -69,6 +69,34 @@ demosaic <- function(raw_array, raw_colors, pattern) {
       }
     }
   }
+  dms_img
+}
+
+# 高速化
+demosaic <- function(raw_array, raw_colors, pattern) {
+  dms_img <- array(0, c(dim(raw_array), 1, 3))
+
+  g <- raw_array
+  g[raw_colors %in% c(0, 2)] <- 0
+  g_filter <- array(c(0, 1, 0,
+                      1, 4, 1,
+                      0, 1, 0) / 4,
+                    c(3, 3, 1, 1))
+  G(dms_img) <- convolve(as.cimg(g), g_filter)
+
+  r <- raw_array
+  r[raw_colors != 0] <- 0
+  r_filter <- array(c(1/4, 1/2, 1/4,
+                      1/2,   1, 1/2,
+                      1/4, 1/2, 1/4),
+                    c(3, 3, 1, 1))
+  R(dms_img) <- convolve(as.cimg(r), r_filter)
+
+  b <- raw_array
+  b[raw_colors != 2] <- 0
+  # 青のフィルターは赤と共通
+  B(dms_img) <- convolve(as.cimg(b), r_filter)
+
   dms_img
 }
 
