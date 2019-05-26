@@ -1,0 +1,3 @@
+[submodule "rstan-book/RStanBook"]
+	path = rstan-book/RStanBook
+	url = git@github.com:MatsuuraKentaro/RStanBook.git
