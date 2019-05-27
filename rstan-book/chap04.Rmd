@@ -1,0 +1,92 @@
+---
+output:
+  md_document:
+    variant: markdown_github
+    pandoc_args:
+      - --atx-headers
+---
+
+## 4.4 単回帰
+
+```{r setup, include=FALSE}
+library(rstan)
+library(ggplot2)
+library(ggmcmc)
+```
+
+```{r}
+d <- read.csv("RStanBook/chap04/input/data-salary.txt")
+```
+
+```{r}
+head(d)
+```
+
+### 4.4.2 データの分布の確認
+
+```{r}
+ggplot(d, aes(x = X, y = Y)) +
+  geom_point()
+```
+
+### 4.4.4 Rのlm関数で推定
+
+```{r}
+res_lm <- lm(Y ~ X, data = d)
+res_lm
+```
+
+```{r}
+X_new <- data.frame(X = 23:60)
+conf_95 <- predict(res_lm, X_new, interval = 'confidence', level = 0.95)
+pred_95 <- predict(res_lm, X_new, interval = 'prediction', level = 0.95)
+```
+
+信頼区間
+
+```{r}
+conf_95_df <- data.frame(X_new, conf_95)
+
+ggplot() +
+  geom_ribbon(data = conf_95_df, aes(x = X, ymin = lwr, ymax = upr), alpha = 0.2) +
+  geom_line(data = conf_95_df, aes(x = X, y = fit)) +
+  geom_point(data = d, aes(x = X, y = Y))
+```
+
+予測区間
+
+```{r}
+pred_95_df <- data.frame(X_new, pred_95)
+
+ggplot() +
+  geom_ribbon(data = pred_95_df, aes(x = X, ymin = lwr, ymax = upr), alpha = 0.2) +
+  geom_line(data = pred_95_df, aes(x = X, y = fit)) +
+  geom_point(data = d, aes(x = X, y = Y))
+```
+
+### 4.4.5 Stanで実装
+
+model4-5.stan
+
+```{r echo=FALSE, comment=''}
+cat(readLines("RStanBook/chap04/model/model4-5.stan"), sep = "\n")
+```
+
+### 4.4.6 Rからの実行方法
+
+```{r cache=TRUE}
+data <- list(N = nrow(d), X = d$X, Y = d$Y)
+fit <- stan(file = "RStanBook/chap04/model/model4-5.stan", data = data, seed = 1234)
+```
+
+### 4.4.7 RStanの結果の見方
+
+```{r}
+fit
+```
+
+### 4.4.8 収束診断をファイルに出力する
+
+```{r}
+ggs_traceplot(ggs(fit, inc_warmup = TRUE, stan_include_auxiliar = TRUE))
+```
