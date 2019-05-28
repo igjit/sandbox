@@ -90,3 +90,19 @@ fit
 ```{r}
 ggs_traceplot(ggs(fit, inc_warmup = TRUE, stan_include_auxiliar = TRUE))
 ```
+
+### 4.4.9 MCMCの設定の変更
+
+```{r}
+stanmodel <- stan_model(file = "RStanBook/chap04/model/model4-5.stan")
+
+fit <- sampling(
+  stanmodel,
+  data = data,
+  pars = c("b", "sigma"),
+  init = function() {
+    list(a = runif(1, -10, 10), b = runif(1, 0, 10), sigma = 10)
+  },
+  seed = 123,
+  chains = 3, iter = 1000, warmup = 200, thin = 2)
+```
