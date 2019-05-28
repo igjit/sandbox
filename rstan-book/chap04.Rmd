@@ -8,7 +8,7 @@ output:
 
 ## 4.4 単回帰
 
-```{r setup, include=FALSE}
+```{r setup, message=FALSE}
 library(rstan)
 library(ggplot2)
 library(ggmcmc)
