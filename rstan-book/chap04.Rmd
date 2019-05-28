@@ -74,7 +74,7 @@ cat(readLines("RStanBook/chap04/model/model4-5.stan"), sep = "\n")
 
 ### 4.4.6 Rからの実行方法
 
-```{r cache=TRUE}
+```{r cache=TRUE, results="hide"}
 data <- list(N = nrow(d), X = d$X, Y = d$Y)
 fit <- stan(file = "RStanBook/chap04/model/model4-5.stan", data = data, seed = 1234)
 ```
@@ -93,7 +93,7 @@ ggs_traceplot(ggs(fit, inc_warmup = TRUE, stan_include_auxiliar = TRUE))
 
 ### 4.4.9 MCMCの設定の変更
 
-```{r}
+```{r results="hide"}
 stanmodel <- stan_model(file = "RStanBook/chap04/model/model4-5.stan")
 
 fit <- sampling(
