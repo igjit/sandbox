@@ -106,3 +106,40 @@ fit <- sampling(
   seed = 123,
   chains = 3, iter = 1000, warmup = 200, thin = 2)
 ```
+
+### 4.4.10 並列計算の実行方法
+
+```{r eval=FALSE}
+rstan_options(auto_write = TRUE)
+options(mc.cores = parallel::detectCores())
+```
+
+### 4.4.11 ベイズ信頼区間とベイズ予測区間の算出
+
+```{r}
+ms <- rstan::extract(fit)
+```
+
+```{r}
+head(ms$b)
+quantile(ms$b, probs = c(0.025, 0.975))
+```
+
+```{r}
+d_mcmc <- as.data.frame(ms)[1:3]
+head(d_mcmc)
+```
+
+```{r}
+ggplot(d_mcmc, aes(x = a, y = b)) +
+  geom_point(shape = 1, alpha = 0.2)
+```
+
+50歳の人の基本年収の分布と年収の予測分布
+
+```{r}
+N_mcmc <- length(ms$lp__)
+y50_base <- ms$a + ms$b * 50
+y50 <- rnorm(n = N_mcmc, mean = y50_base, sd = ms$sigma)
+d_mcmc <- data.frame(a = ms$a, b = ms$b, sigma = ms$sigma, y50_base, y50)
+```
