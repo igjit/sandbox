@@ -74,7 +74,7 @@ cat(readLines("RStanBook/chap04/model/model4-5.stan"), sep = "\n")
 
 ### 4.4.6 Rからの実行方法
 
-```{r cache=TRUE, results="hide"}
+```{r cache=TRUE, results="hide", message=FALSE}
 data <- list(N = nrow(d), X = d$X, Y = d$Y)
 fit <- stan(file = "RStanBook/chap04/model/model4-5.stan", data = data, seed = 1234)
 ```
@@ -152,7 +152,7 @@ model4-4.stan
 cat(readLines("RStanBook/chap04/model/model4-4.stan"), sep = "\n")
 ```
 
-```{r cache=TRUE, results="hide"}
+```{r cache=TRUE, results="hide", message=FALSE}
 X_new <- 23:60
 data <- list(N = nrow(d), X = d$X, Y = d$Y, N_new = length(X_new), X_new = X_new)
 fit <- stan(file = "RStanBook/chap04/model/model4-4.stan", data = data, seed = 1234)
