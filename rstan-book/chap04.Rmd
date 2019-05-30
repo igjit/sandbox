@@ -143,3 +143,22 @@ y50_base <- ms$a + ms$b * 50
 y50 <- rnorm(n = N_mcmc, mean = y50_base, sd = ms$sigma)
 d_mcmc <- data.frame(a = ms$a, b = ms$b, sigma = ms$sigma, y50_base, y50)
 ```
+
+### 4.4.12 transformed parametersブロックとgenerated quantitiesブロック
+
+model4-4.stan
+
+```{r echo=FALSE, comment=''}
+cat(readLines("RStanBook/chap04/model/model4-4.stan"), sep = "\n")
+```
+
+```{r cache=TRUE, results="hide"}
+X_new <- 23:60
+data <- list(N = nrow(d), X = d$X, Y = d$Y, N_new = length(X_new), X_new = X_new)
+fit <- stan(file = "RStanBook/chap04/model/model4-4.stan", data = data, seed = 1234)
+ms <- rstan::extract(fit)
+```
+
+```{r}
+head(ms$y_new[, 1:4])
+```
