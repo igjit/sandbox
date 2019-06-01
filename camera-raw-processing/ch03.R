@@ -108,3 +108,26 @@ gmm_full_img %>% ta %>% as.cimg %>% plot
 par(mfrow = c(1, 2))
 gmm_img %>% ta %>% as.cimg %>% imsub(x %inr% c(x1, x1 + dx1), y %inr% c(y1, y1 + dy1)) %>% plot(interpolate = FALSE)
 gmm_full_img %>% ta %>% as.cimg %>% imsub(x %inr% (c(x1, x1 + dx1) * 2), y %inr% (c(y1, y1 + dy1) * 2)) %>% plot(interpolate = FALSE)
+
+# カラーマトリクス補正
+color_matrix <- matrix(c(6022, -2314, 394,
+                         -936, 4728, 310,
+                         300, -4324, 8126) / 4096,
+                       3, 3, byrow = TRUE)
+
+color_correction_matrix <- function(rgb_array, color_matrix) {
+  ccm_img <- array(0, dim(rgb_array))
+  for (col in 1:3) {
+    ccm_img[,, 1, col] <-
+      color_matrix[col, 1] * R(rgb_array) +
+      color_matrix[col, 2] * G(rgb_array) +
+      color_matrix[col, 3] * B(rgb_array)
+  }
+  ccm_img
+}
+
+dms_full_img %>%
+  color_correction_matrix(color_matrix) %>%
+  `/`(white_level) %>%
+  gamma_correction(2.2) %>%
+  ta %>% as.cimg %>% plot
