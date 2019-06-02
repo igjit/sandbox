@@ -24,8 +24,9 @@ R -q
 install.packages("imager")
 ```
 
-RAW image
+RAW images
 
 ```sh
 wget https://github.com/moizumi99/camera_raw_processing/raw/master/chart.jpg
+wget https://github.com/moizumi99/camera_raw_processing/raw/master/flat.jpg
 ```
