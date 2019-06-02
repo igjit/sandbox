@@ -131,3 +131,38 @@ dms_full_img %>%
   `/`(white_level) %>%
   gamma_correction(2.2) %>%
   ta %>% as.cimg %>% plot
+
+# シェーディング補正
+raw_file <- "flat.jpg"
+raw <- rawpy$imread(raw_file)
+raw_array <- raw$raw_image
+
+# レンズシェーディング補正前
+original_img <- raw_array %>%
+  black_level_correction(raw$black_level_per_channel, raw$raw_pattern) %>%
+  white_balance(raw$camera_whitebalance, raw$raw_colors) %>%
+  demosaic(raw$raw_colors, raw$raw_pattern) %>%
+  color_correction_matrix(color_matrix) %>%
+  `/`(white_level) %>%
+  gamma_correction(2.2)
+original_img %>% ta %>% as.cimg %>% plot
+
+w <- ncol(raw_array)
+h <- nrow(raw_array)
+center_y <- h / 2
+center_x <- w / 2
+y <- center_y - 16
+
+library(tidyverse)
+
+shading_profile <- seq(1, w - 32, 32) %>%
+  map_dfr(function(x) list(r = mean(original_img[y:(y + 32), x:(x + 32), 1, 1]),
+                           g = mean(original_img[y:(y + 32), x:(x + 32), 1, 2]),
+                           b = mean(original_img[y:(y + 32), x:(x + 32), 1, 3]))) %>%
+  map_dfr(~ . / max(.)) %>%
+  mutate(pos = 1:n())
+
+ggplot(gather(shading_profile, "color", "value", -pos), aes(x = pos, y = value)) +
+  geom_line(aes(color = color)) +
+  ylim(0, 1) +
+  scale_color_manual(values = c(r = "red", g = "green", b = "blue"))
