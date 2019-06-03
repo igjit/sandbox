@@ -1,0 +1,31 @@
+---
+output:
+  md_document:
+    variant: markdown_github
+    pandoc_args:
+      - --atx-headers
+---
+
+## 5.1 重回帰
+
+```{r setup, message=FALSE}
+library(rstan)
+library(ggplot2)
+library(GGally)
+library(ggmcmc)
+library(dplyr)
+```
+
+```{r}
+d <- read.csv("RStanBook/chap05/input/data-attendance-1.txt")
+```
+
+```{r}
+head(d)
+```
+
+### 5.1.2 データの分布の確認
+
+```{r}
+d %>% mutate(A = as.factor(A)) %>% ggpairs
+```
