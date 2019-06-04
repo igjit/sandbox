@@ -26,6 +26,27 @@ head(d)
 
 ### 5.1.2 データの分布の確認
 
-```{r}
+```{r message=FALSE}
 d %>% mutate(A = as.factor(A)) %>% ggpairs
+```
+
+### 5.1.5 Stanで実装
+
+model5-3.stan
+
+```{r echo=FALSE, comment=''}
+cat(readLines("RStanBook/chap05/model/model5-3.stan"), sep = "\n")
+```
+
+### 5.1.6 データのスケーリング
+
+```{r cache=TRUE, results="hide", message=FALSE}
+data <- list(N = nrow(d), A = d$A, Score = d$Score / 200, Y = d$Y)
+fit <- stan(file = "RStanBook/chap05/model/model5-3.stan", data = data, seed = 1234)
+```
+
+### 5.1.7 推定結果の解釈
+
+```{r}
+fit %>% capture.output %>% head(10) %>% cat(sep = "\n")
 ```
