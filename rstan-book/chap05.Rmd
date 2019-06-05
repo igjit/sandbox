@@ -50,3 +50,15 @@ fit <- stan(file = "RStanBook/chap05/model/model5-3.stan", data = data, seed = 1
 ```{r}
 fit %>% capture.output %>% head(10) %>% cat(sep = "\n")
 ```
+
+### 5.1.8 図によるモデルのチェック
+
+```{r}
+ggplot(data = d_qua, aes(x = Y, y = p50, ymin = p10, ymax = p90, shape = A, fill = A)) +
+  coord_fixed(ratio = 1, xlim = c(0, 0.5), ylim = c(0, 0.5)) +
+  geom_pointrange() +
+  geom_abline(aes(slope = 1, intercept = 0), alpha = 0.6, linetype = "31") +
+  scale_shape_manual(values = c(21, 24)) +
+  scale_fill_manual(values = c("white", "grey70")) +
+  labs(x = "Observed", y = "Predicted")
+```
