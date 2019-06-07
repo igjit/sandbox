@@ -89,3 +89,22 @@ ggplot(data = d_mode, aes(x = X)) +
   labs(x = "value", y = "count") +
   xlim(range(density(d_mode$X)$x))
 ```
+
+## 5.2 二項ロジスティック回帰
+
+```{r}
+d <- read.csv("RStanBook/chap05/input/data-attendance-2.txt")
+```
+
+```{r}
+d %>% head
+```
+
+### 5.2.2 データの分布の確認
+
+```{r message=FALSE}
+d %>%
+  select(-1) %>%
+  mutate(A = as.factor(A), ratio = Y / M) %>%
+  ggpairs
+```
