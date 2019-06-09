@@ -138,8 +138,9 @@ raw <- rawpy$imread(raw_file)
 raw_array <- raw$raw_image
 
 # レンズシェーディング補正前
-original_img <- raw_array %>%
-  black_level_correction(raw$black_level_per_channel, raw$raw_pattern) %>%
+blc_raw <- raw_array %>%
+  black_level_correction(raw$black_level_per_channel, raw$raw_pattern)
+original_img <- blc_raw %>%
   white_balance(raw$camera_whitebalance, raw$raw_colors) %>%
   demosaic(raw$raw_colors, raw$raw_pattern) %>%
   color_correction_matrix(color_matrix) %>%
