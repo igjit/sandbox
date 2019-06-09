@@ -167,3 +167,31 @@ ggplot(gather(shading_profile, "color", "value", -pos), aes(x = pos, y = value))
   geom_line(aes(color = color)) +
   ylim(0, 1) +
   scale_color_manual(values = c(r = "red", g = "green", b = "blue"))
+
+# レンズシェーディングのモデル化
+value_df <- map_dfr(seq(1, h - 32, 32), function(y) {
+  map_dfr(seq(1, w - 32, 32), function(x) {
+    xx <- x + 16
+    yy <- y + 16
+    list(
+      xx = xx,
+      yy = yy,
+      radial = (yy - center_y) * (yy - center_y) + (xx - center_x) * (xx - center_x),
+      b = mean(blc_raw[seq(y, y + 32, 2), seq(x, x + 32, 2)]),
+      g1 = mean(blc_raw[seq(y, y + 32, 2), seq(x + 1, x + 32, 2)]),
+      g2 = mean(blc_raw[seq(y + 1, y + 32, 2), seq(x, x + 32, 2)]),
+      r = mean(blc_raw[seq(y + 1, y + 32, 2), seq(x + 1, x + 32, 2)]))
+  })
+})
+
+norm_value_df <- value_df %>%
+  transmute(radial,
+            b = b / max(b),
+            g1 = g1 / max(g1),
+            g2 = g2 / max(g2),
+            r = r / max(r))
+
+ggplot(gather(norm_value_df, "color", "value", -radial), aes(x = radial, y = value)) +
+  geom_line(aes(color = color)) +
+  ylim(0, 1) +
+  scale_color_manual(values = c(r = "red", g1 = "green", g2 = "green", b = "blue"))
