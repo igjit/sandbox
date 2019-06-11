@@ -197,3 +197,12 @@ ggplot(gather(norm_value_df, "color", "value", -radial), aes(x = radial, y = val
   geom_point(aes(color = color)) +
   ylim(0, 1) +
   scale_color_manual(values = colors)
+
+inv_norm_value_df <- norm_value_df %>%
+  select(-radial) %>%
+  map_dfc(~ 1 / .) %>%
+  add_column(radial = norm_value_df$radial, .before = TRUE)
+
+ggplot(gather(inv_norm_value_df, "color", "value", -radial), aes(x = radial, y = value)) +
+  geom_point(aes(color = color)) +
+  scale_color_manual(values = colors)
