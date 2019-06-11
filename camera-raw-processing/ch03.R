@@ -191,7 +191,9 @@ norm_value_df <- value_df %>%
             g2 = g2 / max(g2),
             r = r / max(r))
 
+colors <- c(r = "red", g1 = "green", g2 = "green", b = "blue")
+
 ggplot(gather(norm_value_df, "color", "value", -radial), aes(x = radial, y = value)) +
   geom_line(aes(color = color)) +
   ylim(0, 1) +
-  scale_color_manual(values = c(r = "red", g1 = "green", g2 = "green", b = "blue"))
+  scale_color_manual(values = colors)
