@@ -194,6 +194,6 @@ norm_value_df <- value_df %>%
 colors <- c(r = "red", g1 = "green", g2 = "green", b = "blue")
 
 ggplot(gather(norm_value_df, "color", "value", -radial), aes(x = radial, y = value)) +
-  geom_line(aes(color = color)) +
+  geom_point(aes(color = color)) +
   ylim(0, 1) +
   scale_color_manual(values = colors)
