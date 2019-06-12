@@ -206,3 +206,7 @@ inv_norm_value_df <- norm_value_df %>%
 ggplot(gather(inv_norm_value_df, "color", "value", -radial), aes(x = radial, y = value)) +
   geom_point(aes(color = color)) +
   scale_color_manual(values = colors)
+
+models <- colnames(inv_norm_value_df)[-1] %>%
+  paste("~ radial") %>%
+  map(~ lm(as.formula(.), inv_norm_value_df))
