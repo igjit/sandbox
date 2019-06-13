@@ -210,3 +210,13 @@ ggplot(gather(inv_norm_value_df, "color", "value", -radial), aes(x = radial, y =
 models <- colnames(inv_norm_value_df)[-1] %>%
   paste("~ radial") %>%
   map(~ lm(as.formula(.), inv_norm_value_df))
+
+model_df <- models %>%
+  map_dfr(~ as.list(.$coefficients)) %>%
+  transmute(color = colnames(inv_norm_value_df)[-1], intercept = `(Intercept)`, slope = radial)
+
+ggplot(model_df) +
+  geom_abline(aes(intercept = intercept, slope = slope, color = color)) +
+  xlim(0, 4e6) +
+  ylim(0, 6) +
+  scale_color_manual(values = colors)
