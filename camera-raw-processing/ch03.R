@@ -220,3 +220,22 @@ ggplot(model_df) +
   xlim(0, 4e6) +
   ylim(0, 6) +
   scale_color_manual(values = colors)
+
+# ブラックレベル補正のみをかけたRAW画像
+blc_raw %>% t %>% as.cimg %>% plot(interpolate = FALSE)
+
+gain_map <- array(0, dim(raw_array))
+for (y in seq(1, h, 2)) {
+  for (x in seq(1, w, 2)) {
+    x + y
+    r2 <- (y - center_y) ^ 2 + (x - center_x) ^ 2
+    gain <- model_df$intercept + model_df$slope * r2
+    gain_map[y, x] <- gain[1]
+    gain_map[y, x + 1] <- gain[2]
+    gain_map[y + 1, x] <- gain[3]
+    gain_map[y + 1, x + 1] <- gain[4]
+  }
+}
+
+lsc_raw <- blc_raw * gain_map
+lsc_raw %>% normalize %>% t %>% as.cimg %>% plot
