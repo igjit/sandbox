@@ -156,12 +156,16 @@ y <- center_y - 16
 
 library(tidyverse)
 
-shading_profile <- seq(1, w - 32, 32) %>%
-  map_dfr(function(x) list(r = mean(original_img[y:(y + 32), x:(x + 32), 1, 1]),
-                           g = mean(original_img[y:(y + 32), x:(x + 32), 1, 2]),
-                           b = mean(original_img[y:(y + 32), x:(x + 32), 1, 3]))) %>%
-  map_dfr(~ . / max(.)) %>%
-  mutate(pos = 1:n())
+horizontal_shading_profile <- function(img, w, y) {
+  seq(1, w - 32, 32) %>%
+    map_dfr(function(x) list(r = mean(img[y:(y + 32), x:(x + 32), 1, 1]),
+                             g = mean(img[y:(y + 32), x:(x + 32), 1, 2]),
+                             b = mean(img[y:(y + 32), x:(x + 32), 1, 3]))) %>%
+    map_dfr(~ . / max(.)) %>%
+    mutate(pos = 1:n())
+}
+
+shading_profile <- horizontal_shading_profile(original_img, w, y)
 
 ggplot(gather(shading_profile, "color", "value", -pos), aes(x = pos, y = value)) +
   geom_line(aes(color = color)) +
