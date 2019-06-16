@@ -243,3 +243,19 @@ for (y in seq(1, h, 2)) {
 
 lsc_raw <- blc_raw * gain_map
 lsc_raw %>% normalize %>% t %>% as.cimg %>% plot
+
+# レンズシェーディング補正後
+shading_img <- lsc_raw %>%
+  white_balance(raw$camera_whitebalance, raw$raw_colors) %>%
+  demosaic(raw$raw_colors, raw$raw_pattern) %>%
+  color_correction_matrix(color_matrix) %>%
+  `/`(white_level) %>%
+  gamma_correction(2.2)
+shading_img %>% ta %>% as.cimg %>% plot
+
+shading_after <- horizontal_shading_profile(shading_img, w, center_y - 16)
+
+ggplot(gather(shading_after, "color", "value", -pos), aes(x = pos, y = value)) +
+  geom_line(aes(color = color)) +
+  ylim(0, 1) +
+  scale_color_manual(values = c(r = "red", g = "green", b = "blue"))
