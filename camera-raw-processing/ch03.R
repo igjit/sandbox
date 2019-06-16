@@ -259,3 +259,29 @@ ggplot(gather(shading_after, "color", "value", -pos), aes(x = pos, y = value)) +
   geom_line(aes(color = color)) +
   ylim(0, 1) +
   scale_color_manual(values = c(r = "red", g = "green", b = "blue"))
+
+raw_file <- "chart.jpg"
+raw <- rawpy$imread(raw_file)
+raw_array <- raw$raw_image
+
+blc_raw <- raw_array %>%
+  black_level_correction(raw$black_level_per_channel, raw$raw_pattern)
+
+no_shading_img <- blc_raw %>%
+  white_balance(raw$camera_whitebalance, raw$raw_colors) %>%
+  demosaic(raw$raw_colors, raw$raw_pattern) %>%
+  color_correction_matrix(color_matrix) %>%
+  `/`(white_level) %>%
+  gamma_correction(2.2)
+
+shading_img <- blc_raw %>%
+  `*`(gain_map) %>%
+  white_balance(raw$camera_whitebalance, raw$raw_colors) %>%
+  demosaic(raw$raw_colors, raw$raw_pattern) %>%
+  color_correction_matrix(color_matrix) %>%
+  `/`(white_level) %>%
+  gamma_correction(2.2)
+
+par(mfrow = c(1, 2))
+no_shading_img %>% ta %>% as.cimg %>% plot
+shading_img %>% ta %>% as.cimg %>% plot
