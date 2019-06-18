@@ -1,6 +1,6 @@
 library(reticulate)
 library(imager)
-library(magrittr)
+library(tidyverse)
 
 source("./raw_process.R")
 
