@@ -31,3 +31,5 @@ gmm_img <- blc_raw %>%
   gamma_correction(2.2)
 
 gmm_img %>% ta %>% as.cimg %>% plot
+
+gmm_img %>% ta %>% as.cimg %>% imsub(x %inr% c(800, 1000), y %inr% c(1950, 2150)) %>% plot(interpolate = FALSE)
