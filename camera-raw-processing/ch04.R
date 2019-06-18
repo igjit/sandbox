@@ -19,8 +19,10 @@ color_matrix <- matrix(c(6022, -2314, 394,
                        3, 3, byrow = TRUE)
 white_level <- 1024
 
-gmm_img <- raw_array %>%
-  black_level_correction(raw$black_level_per_channel, raw$raw_pattern) %>%
+blc_raw <- raw_array %>%
+  black_level_correction(raw$black_level_per_channel, raw$raw_pattern)
+
+gmm_img <- blc_raw %>%
   lens_shading_correction(lsc) %>%
   white_balance(raw$camera_whitebalance, raw$raw_colors) %>%
   demosaic(raw$raw_colors, raw$raw_pattern) %>%
