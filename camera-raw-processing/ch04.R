@@ -48,3 +48,9 @@ noise_df <- patches %>% pmap_dfr(function(y, x) {
 
 ggplot(noise_df, aes(x = mean, y = var)) +
   geom_point()
+
+par <- lm(var ~ mean, noise_df)
+
+ggplot(noise_df, aes(x = mean, y = var)) +
+  geom_point() +
+  geom_abline(intercept = par$coefficients[1], slope = par$coefficients[2])
