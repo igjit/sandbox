@@ -54,3 +54,16 @@ par <- lm(var ~ mean, noise_df)
 ggplot(noise_df, aes(x = mean, y = var)) +
   geom_point() +
   geom_abline(intercept = par$coefficients[1], slope = par$coefficients[2])
+
+mono_dms_img <- dms_img %>% grayscale %>% array(dim(dms_img)[1:2])
+
+dms_noise_df <- patches %>% pmap_dfr(function(y, x) {
+  v <- mono_dms_img[y:(y + 100), x:(x + 100)] %>% as.vector
+  list(mean = mean(v), var = var(v))
+})
+
+dms_par <- lm(var ~ mean, dms_noise_df)
+
+ggplot(dms_noise_df, aes(x = mean, y = var)) +
+  geom_point() +
+  geom_abline(intercept = dms_par$coefficients[1], slope = dms_par$coefficients[2])
