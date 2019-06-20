@@ -90,3 +90,8 @@ for (y in 1950:2150) {
     img_flt[y, x, 1,] <- out_pixel / sum(weight)
   }
 }
+
+# 比較
+par(mfrow = c(1, 2))
+dms_img %>% ta %>% as.cimg %>% imsub(x %inr% c(800, 1000), y %inr% c(1950, 2150)) %>% plot(interpolate = FALSE, main = "Before")
+img_flt %>% ta %>% as.cimg %>% imsub(x %inr% c(800, 1000), y %inr% c(1950, 2150)) %>% plot(interpolate = FALSE, main = "After")
