@@ -74,8 +74,10 @@ img_flt <- array(0, dim(dms_img))
 h <- nrow(img_flt)
 w <- ncol(img_flt)
 
-for (y in 3:(h - 2)) {
-  for (x in 3:(w - 2)) {
+# for (y in 3:(h - 2)) {
+#   for (x in 3:(w - 2)) {
+for (y in 1950:2150) {
+  for (x in 800:1000) {
     average <- mono_dms_img[(y - 2):(y + 2), (x - 2):(x + 2)] %>% mean
     sigma <- dms_par$coefficients[2] * average
     sigma <- if (sigma > 0) sigma else 1
