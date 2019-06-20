@@ -67,3 +67,24 @@ dms_par <- lm(var ~ mean, dms_noise_df)
 ggplot(dms_noise_df, aes(x = mean, y = var)) +
   geom_point() +
   geom_abline(intercept = dms_par$coefficients[1], slope = dms_par$coefficients[2])
+
+# バイラテラルノイズフィルター (低速)
+coef <- 0.1
+img_flt <- array(0, dim(dms_img))
+h <- nrow(img_flt)
+w <- ncol(img_flt)
+
+for (y in 3:(h - 2)) {
+  for (x in 3:(w - 2)) {
+    average <- mono_dms_img[(y - 2):(y + 2), (x - 2):(x + 2)] %>% mean
+    sigma <- dms_par$coefficients[2] * average
+    sigma <- if (sigma > 0) sigma else 1
+
+    diff <- mono_dms_img[(y - 2):(y + 2), (x - 2):(x + 2)] - mono_dms_img[y, x]
+    diff_norm <- diff ^ 2 / sigma
+    weight <- exp(-coef * diff_norm)
+    out_pixel <- (array(weight, c(dim(weight), 3)) * dms_img[(y - 2):(y + 2), (x - 2):(x + 2),,]) %>%
+      apply(3, mean)
+    img_flt[y, x, 1,] <- out_pixel / sum(weight)
+  }
+}
