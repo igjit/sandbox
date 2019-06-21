@@ -76,8 +76,8 @@ w <- ncol(img_flt)
 
 # for (y in 3:(h - 2)) {
 #   for (x in 3:(w - 2)) {
-for (y in 1950:2150) {
-  for (x in 800:1000) {
+for (y in c(1950:2150, 1500:1700)) {
+  for (x in c(800:1000, 1650:1850)) {
     average <- mono_dms_img[(y - 2):(y + 2), (x - 2):(x + 2)] %>% mean
     sigma <- dms_par$coefficients[2] * average
     sigma <- if (sigma > 0) sigma else 1
@@ -95,3 +95,7 @@ for (y in 1950:2150) {
 par(mfrow = c(1, 2))
 dms_img %>% ta %>% as.cimg %>% imsub(x %inr% c(800, 1000), y %inr% c(1950, 2150)) %>% plot(interpolate = FALSE, main = "Before")
 img_flt %>% ta %>% as.cimg %>% imsub(x %inr% c(800, 1000), y %inr% c(1950, 2150)) %>% plot(interpolate = FALSE, main = "After")
+
+par(mfrow = c(1, 2))
+dms_img %>% ta %>% as.cimg %>% imsub(x %inr% c(1650, 1850), y %inr% c(1500, 1700)) %>% plot(interpolate = FALSE, main = "Before")
+img_flt %>% ta %>% as.cimg %>% imsub(x %inr% c(1650, 1850), y %inr% c(1500, 1700)) %>% plot(interpolate = FALSE, main = "After")
