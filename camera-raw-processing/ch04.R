@@ -99,3 +99,19 @@ img_flt %>% ta %>% as.cimg %>% imsub(x %inr% c(800, 1000), y %inr% c(1950, 2150)
 par(mfrow = c(1, 2))
 dms_img %>% ta %>% as.cimg %>% imsub(x %inr% c(1650, 1850), y %inr% c(1500, 1700)) %>% plot(interpolate = FALSE, main = "Before")
 img_flt %>% ta %>% as.cimg %>% imsub(x %inr% c(1650, 1850), y %inr% c(1500, 1700)) %>% plot(interpolate = FALSE, main = "After")
+
+# エッジ強調
+
+# 元画像
+gmm_img %>% ta %>% as.cimg %>% imsub(x %inr% c(1650, 1850), y %inr% c(1500, 1700)) %>% plot(interpolate = FALSE)
+
+ycb_img <- gmm_img %>% RGBtoYCbCr
+# 輝度成分
+ycb_img[,, 1, 1] %>% t %>% as.cimg %>% plot
+
+blurred <- isoblur(ycb_img, 2, gaussian = TRUE)[,, 1, 1]
+
+# 比較
+par(mfrow = c(1, 2))
+ycb_img[,, 1, 1] %>% t %>% as.cimg %>% imsub(x %inr% c(1650, 1850), y %inr% c(1500, 1700)) %>% plot(interpolate = FALSE)
+blurred %>% t %>% as.cimg %>% imsub(x %inr% c(1650, 1850), y %inr% c(1500, 1700)) %>% plot(interpolate = FALSE)
