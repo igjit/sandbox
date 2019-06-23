@@ -116,3 +116,21 @@ blurred <- isoblur(ycb_img, 2, gaussian = TRUE)[,, 1, 1]
 par(mfrow = c(1, 2))
 luma %>% t %>% as.cimg %>% imsub(x %inr% c(1650, 1850), y %inr% c(1500, 1700)) %>% plot(interpolate = FALSE)
 blurred %>% t %>% as.cimg %>% imsub(x %inr% c(1650, 1850), y %inr% c(1500, 1700)) %>% plot(interpolate = FALSE)
+
+coef <- 1
+unsharp <- luma + coef * (luma - blurred)
+
+# アンシャープマスク前後 (輝度)
+par(mfrow = c(1, 2))
+luma %>% t %>% as.cimg %>% imsub(x %inr% c(1650, 1850), y %inr% c(1500, 1700)) %>% plot(interpolate = FALSE)
+unsharp %>% t %>% as.cimg %>% imsub(x %inr% c(1650, 1850), y %inr% c(1500, 1700)) %>% plot(interpolate = FALSE)
+
+# カラー画像に戻す
+shp_img <- ycb_img
+shp_img[,, 1, 1] <- unsharp
+out_img <- shp_img %>% YCbCrtoRGB
+
+# アンシャープマスク前後 (カラー)
+par(mfrow = c(1, 2))
+gmm_img %>% ta %>% as.cimg %>% imsub(x %inr% c(1650, 1850), y %inr% c(1500, 1700)) %>% plot(interpolate = FALSE, main = "Before")
+out_img %>% ta %>% as.cimg %>% imsub(x %inr% c(1650, 1850), y %inr% c(1500, 1700)) %>% plot(interpolate = FALSE, main = "After")
