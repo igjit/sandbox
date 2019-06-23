@@ -107,11 +107,12 @@ gmm_img %>% ta %>% as.cimg %>% imsub(x %inr% c(1650, 1850), y %inr% c(1500, 1700
 
 ycb_img <- gmm_img %>% RGBtoYCbCr
 # 輝度成分
-ycb_img[,, 1, 1] %>% t %>% as.cimg %>% plot
+luma <- ycb_img[,, 1, 1]
+luma %>% t %>% as.cimg %>% plot
 
 blurred <- isoblur(ycb_img, 2, gaussian = TRUE)[,, 1, 1]
 
 # 比較
 par(mfrow = c(1, 2))
-ycb_img[,, 1, 1] %>% t %>% as.cimg %>% imsub(x %inr% c(1650, 1850), y %inr% c(1500, 1700)) %>% plot(interpolate = FALSE)
+luma %>% t %>% as.cimg %>% imsub(x %inr% c(1650, 1850), y %inr% c(1500, 1700)) %>% plot(interpolate = FALSE)
 blurred %>% t %>% as.cimg %>% imsub(x %inr% c(1650, 1850), y %inr% c(1500, 1700)) %>% plot(interpolate = FALSE)
