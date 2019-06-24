@@ -134,3 +134,9 @@ out_img <- shp_img %>% YCbCrtoRGB
 par(mfrow = c(1, 2))
 gmm_img %>% ta %>% as.cimg %>% imsub(x %inr% c(1650, 1850), y %inr% c(1500, 1700)) %>% plot(interpolate = FALSE, main = "Before")
 out_img %>% ta %>% as.cimg %>% imsub(x %inr% c(1650, 1850), y %inr% c(1500, 1700)) %>% plot(interpolate = FALSE, main = "After")
+
+# トーンカーブ補正
+
+# 輝度成分のヒストグラム
+ggplot() +
+  geom_histogram(aes(x = as.vector(luma)), bins = 256)
