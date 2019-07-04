@@ -140,3 +140,9 @@ out_img %>% ta %>% as.cimg %>% imsub(x %inr% c(1650, 1850), y %inr% c(1500, 1700
 # 輝度成分のヒストグラム
 ggplot() +
   geom_histogram(aes(x = as.vector(luma)), bins = 256)
+
+xs <- c(0, 0.28, 0.78, 1.0)
+ys <- c(0, 0.22, 0.88, 1.0)
+
+# トーンカーブ(スムージング前)
+ggplot() + geom_line(aes(x = xs, y = ys))
