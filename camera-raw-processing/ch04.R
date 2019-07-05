@@ -1,6 +1,8 @@
 library(reticulate)
 library(imager)
 library(tidyverse)
+# devtools::install_github("thomasp85/patchwork")
+library(patchwork)
 
 source("./raw_process.R")
 
