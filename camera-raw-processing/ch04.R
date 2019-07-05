@@ -148,3 +148,16 @@ ys <- c(0, 0.22, 0.88, 1.0)
 
 # トーンカーブ(スムージング前)
 ggplot() + geom_line(aes(x = xs, y = ys))
+
+func <- splinefun(xs, ys)
+
+# トーンカーブ(スムージング後)
+ggplot() + stat_function(aes(x = 0:1), fun = func) + labs(title = "Tone curve")
+
+# 輝度成分にトーンカーブを適用
+adjusted <- luma %>% as.vector %>% `/`(256) %>% func %>% matrix(dim(luma))
+
+# 比較
+ggplot() + geom_histogram(aes(x = as.vector(luma) / 256), bins = 256) + xlim(0, 1) + xlab("Before") +
+  ggplot() + geom_histogram(aes(x = as.vector(adjusted)), bins = 256) + xlim(0, 1) + xlab("After") +
+  plot_layout(ncol = 1)
