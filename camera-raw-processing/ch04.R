@@ -161,3 +161,13 @@ adjusted <- luma %>% as.vector %>% `/`(256) %>% func %>% matrix(dim(luma))
 ggplot() + geom_histogram(aes(x = as.vector(luma) / 256), bins = 256) + xlim(0, 1) + xlab("Before") +
   ggplot() + geom_histogram(aes(x = as.vector(adjusted)), bins = 256) + xlim(0, 1) + xlab("After") +
   plot_layout(ncol = 1)
+
+# フルカラー画像に変換
+ton_img <- ycb_img
+ton_img[,, 1, 1] <- adjusted * 256
+out_img <- ton_img %>% YCbCrtoRGB
+
+# 比較
+par(mfrow = c(1, 2))
+gmm_img %>% ta %>% as.cimg %>% plot(interpolate = FALSE, main = "Before")
+out_img %>% ta %>% as.cimg %>% plot(interpolate = FALSE, main = "After")
