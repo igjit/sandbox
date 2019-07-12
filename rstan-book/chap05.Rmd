@@ -113,3 +113,18 @@ d %>%
   mutate(A = as.factor(A), ratio = Y / M) %>%
   ggpairs
 ```
+
+### 5.2.5 Stanで実装
+
+model5-4.stan
+
+```{r echo=FALSE, comment=''}
+cat(readLines("RStanBook/chap05/model/model5-4.stan"), sep = "\n")
+```
+
+実行
+
+```{r cache=TRUE, results="hide", message=FALSE}
+data <- list(N = nrow(d), A = d$A, Score = d$Score / 200, M = d$M, Y = d$Y)
+fit <- stan(file = "RStanBook/chap05/model/model5-4.stan", data = data, seed = 1234)
+```
