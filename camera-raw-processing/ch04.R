@@ -146,15 +146,15 @@ ggplot() +
 xs <- c(0, 0.28, 0.78, 1.0)
 ys <- c(0, 0.22, 0.88, 1.0)
 
-# トーンカーブ(スムージング前)
+# トーンカーブ(スムージング前)
 ggplot() + geom_line(aes(x = xs, y = ys))
 
 func <- splinefun(xs, ys)
 
-# トーンカーブ(スムージング後)
+# トーンカーブ(スムージング後)
 ggplot() + stat_function(aes(x = 0:1), fun = func) + labs(title = "Tone curve")
 
-# 輝度成分にトーンカーブを適用
+# 輝度成分にトーンカーブを適用
 adjusted <- luma %>% as.vector %>% `/`(256) %>% func %>% matrix(dim(luma))
 
 # 比較
