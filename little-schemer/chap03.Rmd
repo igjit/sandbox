@@ -1,0 +1,40 @@
+---
+output:
+  github_document:
+    md_extensions: "+ignore_line_breaks"
+---
+
+# 3章 偉大なるCons
+
+```{r setup, include=FALSE}
+devtools::load_all("r/knitscm/")
+h <- knitscm::run_scheme(system2("which", "gosh", stdout = TRUE), "-i")
+```
+
+p.35の`rember`(未完成)
+
+```{scm handle=h}
+(define rember
+  (lambda (a lat)
+    (cond
+     ((null? lat) (quote ()))
+     (else (cond
+            ((eq? (car lat) a) (cdr lat))
+             (else (rember a (cdr lat))))))))
+```
+
+baconを除く
+
+```{scm handle=h}
+(rember 'bacon '(bacon lettuce and tomato))
+```
+
+andを除いたときにandの前にある全ての要素を失ってしまう
+
+```{scm handle=h}
+(rember 'and '(bacon lettuce and tomato))
+```
+
+```{r include=FALSE}
+knitscm::kill_scheme(h)
+```
