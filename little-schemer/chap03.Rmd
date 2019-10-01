@@ -8,7 +8,8 @@ output:
 
 ```{r setup, include=FALSE}
 devtools::load_all("r/knitscm/")
-h <- knitscm::run_scheme(system2("which", "gosh", stdout = TRUE), "-i")
+gosh_path <- system2("which", "gosh", stdout = TRUE)
+h <- knitscm::run_scheme(gosh_path, "-i")
 ```
 
 p.35の`rember`(未完成)
