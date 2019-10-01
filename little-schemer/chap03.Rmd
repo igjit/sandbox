@@ -9,12 +9,13 @@ output:
 ```{r setup, include=FALSE}
 devtools::load_all("r/knitscm/")
 gosh_path <- system2("which", "gosh", stdout = TRUE)
-h <- knitscm::run_scheme(gosh_path, "-i")
+handle <- knitscm::run_scheme(gosh_path, "-i")
+knitr::opts_chunk$set(handle = handle)
 ```
 
 p.35の`rember`(未完成)
 
-```{scm handle=h}
+```{scm}
 (define rember
   (lambda (a lat)
     (cond
@@ -26,16 +27,16 @@ p.35の`rember`(未完成)
 
 baconを除く
 
-```{scm handle=h}
+```{scm}
 (rember 'bacon '(bacon lettuce and tomato))
 ```
 
 andを除いたときにandの前にある全ての要素を失ってしまう
 
-```{scm handle=h}
+```{scm}
 (rember 'and '(bacon lettuce and tomato))
 ```
 
 ```{r include=FALSE}
-knitscm::kill_scheme(h)
+knitscm::kill_scheme(handle)
 ```
