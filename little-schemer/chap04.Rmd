@@ -1,0 +1,54 @@
+---
+output:
+  github_document:
+    md_extensions: "+ignore_line_breaks"
+---
+
+# 4章 数遊び
+
+```{r setup, include=FALSE}
+devtools::load_all("r/knitscm/")
+gosh_path <- system2("which", "gosh", stdout = TRUE)
+handle <- knitscm::run_scheme(gosh_path, "-i")
+knitr::opts_chunk$set(handle = handle)
+```
+
+```{scm include=FALSE}
+(define atom?
+  (lambda (x)
+    (and (not (pair? x)) (not (null? x)))))
+
+(define add1
+  (lambda (n) (+ n 1)))
+
+(define sub1
+  (lambda (n) (- n 1)))
+```
+
+関数`o+`
+
+```{scm}
+(define o+
+  (lambda (n m)
+    (cond
+     ((zero? m) n)
+     (else (add1 (o+ n (sub1 m)))))))
+```
+
+```{scm}
+(o+ 46 12)
+```
+
+関数`o-`
+
+```{scm}
+(define o-
+  (lambda (n m)
+    (cond
+     ((zero? m) n)
+     (else (sub1 (o- n (sub1 m)))))))
+```
+
+```{scm}
+(o- 14 3)
+```
