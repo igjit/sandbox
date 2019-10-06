@@ -7,7 +7,7 @@ output:
 # 3章 偉大なるCons
 
 ```{r setup, include=FALSE}
-devtools::load_all("r/knitscm/")
+library(knitscm)
 gosh_path <- system2("which", "gosh", stdout = TRUE)
 handle <- knitscm::run_scheme(gosh_path, "-i")
 knitr::opts_chunk$set(handle = handle)
