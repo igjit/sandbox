@@ -19,6 +19,8 @@ kill_scheme <- function(handle) {
 
 scheme_engine <- function(options) {
   subprocess::process_write(options$handle, paste(options$code, collapse = "\n"))
+  # FIXME: flush buffer
+  if (length(options$code) > 1) Sys.sleep(0.1)
   res <- subprocess::process_read(options$handle, subprocess::PIPE_STDOUT, timeout = subprocess::TIMEOUT_INFINITE)
   options$comment <- ";;"
   knitr::engine_output(options, options$code, head(res, -1))
