@@ -36,3 +36,39 @@
 ```
 
     ;; 11
+
+関数`addtup`
+
+``` scm
+(define addtup
+  (lambda (tup)
+    (cond
+     ((null? tup) 0)
+     (else (o+ (car tup) (addtup (cdr tup)))))))
+```
+
+    ;; addtup
+
+``` scm
+(addtup '(3 5 2 8))
+```
+
+    ;; 18
+
+関数`×`
+
+``` scm
+(define ×
+  (lambda (n m)
+    (cond
+     ((zero? m) 0)
+     (else (o+ n (× n (sub1 m)))))))
+```
+
+    ;; ×
+
+``` scm
+(× 12 3)
+```
+
+    ;; 36

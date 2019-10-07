@@ -52,3 +52,31 @@ knitr::opts_chunk$set(handle = handle)
 ```{scm}
 (o- 14 3)
 ```
+
+関数`addtup`
+
+```{scm}
+(define addtup
+  (lambda (tup)
+    (cond
+     ((null? tup) 0)
+     (else (o+ (car tup) (addtup (cdr tup)))))))
+```
+
+```{scm}
+(addtup '(3 5 2 8))
+```
+
+関数`×`
+
+```{scm}
+(define ×
+  (lambda (n m)
+    (cond
+     ((zero? m) 0)
+     (else (o+ n (× n (sub1 m)))))))
+```
+
+```{scm}
+(× 12 3)
+```
