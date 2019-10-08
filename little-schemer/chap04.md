@@ -72,3 +72,132 @@
 ```
 
     ;; 36
+
+p.70の`tup+`
+
+``` scm
+(define tup+
+  (lambda (tup1 tup2)
+    (cond
+     ((and (null? tup1) (null? tup2))
+      (quote ()))
+     (else
+      (cons (o+ (car tup1) (car tup2))
+            (tup+ (cdr tup1) (cdr tup2)))))))
+```
+
+    ;; tup+
+
+``` scm
+(tup+ '(3 7) '(4 6))
+```
+
+    ;; (7 13)
+
+p.73のどんな2つのタップでも動く`tup+`
+
+``` scm
+(define tup+
+  (lambda (tup1 tup2)
+    (cond
+     ((null? tup1) tup2)
+     ((null? tup2) tup1)
+     (else
+      (cons (o+ (car tup1) (car tup2))
+            (tup+ (cdr tup1) (cdr tup2)))))))
+```
+
+    ;; tup+
+
+``` scm
+(tup+ '(3 7) '(4 6 8 1))
+```
+
+    ;; (7 13 8 1)
+
+関数`＞`
+
+``` scm
+(define ＞
+  (lambda (n m)
+    (cond
+     ((zero? n) #f)
+     ((zero? m) #t)
+     (else (＞ (sub1 n) (sub1 m))))))
+```
+
+    ;; ＞
+
+``` scm
+(＞ 12 133)
+```
+
+    ;; #f
+
+``` scm
+(＞ 120 11)
+```
+
+    ;; #t
+
+``` scm
+(＞ 3 3)
+```
+
+    ;; #f
+
+関数`＜`
+
+``` scm
+(define ＜
+  (lambda (n m)
+    (cond
+     ((zero? m) #f)
+     ((zero? n) #t)
+     (else (＜ (sub1 n) (sub1 m))))))
+```
+
+    ;; ＜
+
+``` scm
+(＜ 4 6)
+```
+
+    ;; #t
+
+``` scm
+(＜ 8 3)
+```
+
+    ;; #f
+
+``` scm
+(＜ 6 6)
+```
+
+    ;; #f
+
+関数`＝`
+
+``` scm
+(define ＝
+  (lambda (n m)
+    (cond
+     ((＞ n m) #f)
+     ((＜ n m) #f)
+     (else #t))))
+```
+
+    ;; ＝
+
+``` scm
+(＝ 2 3)
+```
+
+    ;; #f
+
+``` scm
+(＝ 3 3)
+```
+
+    ;; #t
