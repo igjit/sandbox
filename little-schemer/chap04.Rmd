@@ -179,3 +179,31 @@ p.73のどんな2つのタップでも動く`tup+`
 ```{scm}
 (＝ 3 3)
 ```
+
+関数`↑`
+
+```{scm}
+(define ↑
+  (lambda (n m)
+    (cond
+     ((zero? m) 1)
+     (else (× n (↑ n (sub1 m)))))))
+```
+
+```{scm}
+(↑ 2 3)
+```
+
+関数`÷`
+
+```{scm}
+(define ÷
+  (lambda (n m)
+    (cond
+     ((＜ n m) 0)
+     (else (add1 (÷ (o- n m) m))))))
+```
+
+```{scm}
+(÷ 15 4)
+```
