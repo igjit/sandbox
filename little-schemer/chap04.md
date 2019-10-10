@@ -237,3 +237,59 @@ p.73のどんな2つのタップでも動く`tup+`
 ```
 
     ;; 3
+
+関数`length`
+
+``` scm
+(define length
+  (lambda (lat)
+    (cond
+     ((null? lat) 0)
+     (else (add1 (length (cdr lat)))))))
+```
+
+    ;; length
+
+``` scm
+(length '(ham and cheese on rye))
+```
+
+    ;; 5
+
+関数`pick`
+
+``` scm
+(define pick
+  (lambda (n lat)
+    (cond
+     ((zero? (sub1 n)) (car lat))
+     (else (pick (sub1 n) (cdr lat))))))
+```
+
+    ;; pick
+
+``` scm
+(pick 4 '(lasagna spaghetti ravioli macaroni meatball))
+```
+
+    ;; macaroni
+
+関数`rempick`
+
+``` scm
+(define rempick
+  (lambda (n lat)
+    (cond
+     ((zero? (sub1 n)) (cdr lat))
+     (else (cons (car lat)
+                 (rempick (sub1 n)
+                          (cdr lat)))))))
+```
+
+    ;; rempick
+
+``` scm
+(rempick 3 '(hotdogs with hot mustard))
+```
+
+    ;; (hotdogs with mustard)
