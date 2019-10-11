@@ -293,3 +293,46 @@ p.73のどんな2つのタップでも動く`tup+`
 ```
 
     ;; (hotdogs with mustard)
+
+関数`no-nums`
+
+``` scm
+(define no-nums
+  (lambda (lat)
+    (cond
+     ((null? lat) (quote ()))
+     ((number? (car lat)) (no-nums (cdr lat)))
+     (else
+      (cons (car lat)
+            (no-nums (cdr lat)))))))
+```
+
+    ;; no-nums
+
+``` scm
+(no-nums '(5 pears 6 prunes 9 dates))
+```
+
+    ;; (pears prunes dates)
+
+関数`all-nums`
+
+``` scm
+(define all-nums
+  (lambda (lat)
+    (cond
+     ((null? lat) (quote ()))
+     ((number? (car lat))
+      (cons (car lat)
+            (all-nums (cdr lat))))
+     (else
+      (all-nums (cdr lat))))))
+```
+
+    ;; all-nums
+
+``` scm
+(all-nums '(5 pears 6 prunes 9 dates))
+```
+
+    ;; (5 6 9)
