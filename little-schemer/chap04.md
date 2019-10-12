@@ -336,3 +336,57 @@ p.73のどんな2つのタップでも動く`tup+`
 ```
 
     ;; (5 6 9)
+
+関数`eqan?`
+
+``` scm
+(define eqan?
+  (lambda (a1 a2)
+    (cond
+     ((and (number? a1) (number? a2))
+      (= a1 a2))
+     ((or (number? a1) (number? a2))
+      #f)
+     (else (eq? a1 a2)))))
+```
+
+    ;; eqan?
+
+``` scm
+(eqan? 2 2)
+```
+
+    ;; #t
+
+``` scm
+(eqan? 2 'a)
+```
+
+    ;; #f
+
+``` scm
+(eqan? 'a 'a)
+```
+
+    ;; #t
+
+関数`occur`
+
+``` scm
+(define occur
+  (lambda (a lat)
+    (cond
+     ((null? lat) 0)
+     ((eq? (car lat) a)
+      (add1 (occur a (cdr lat))))
+     (else
+      (occur a (cdr lat))))))
+```
+
+    ;; occur
+
+``` scm
+(occur 'a '(a b a c a e))
+```
+
+    ;; 3
