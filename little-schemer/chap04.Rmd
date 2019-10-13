@@ -328,3 +328,26 @@ p.73のどんな2つのタップでも動く`tup+`
 ```{scm}
 (occur 'a '(a b a c a e))
 ```
+
+関数`one?`
+
+```{scm}
+(define one?
+  (lambda (n) (= n 1)))
+```
+
+書き直した`rempick`
+
+```{scm}
+(define rempick
+  (lambda (n lat)
+    (cond
+     ((one? n) (cdr lat))
+     (else (cons (car lat)
+                 (rempick (sub1 n)
+                          (cdr lat)))))))
+```
+
+```{scm}
+(rempick 3 '(lemon meringue salty pie))
+```

@@ -390,3 +390,32 @@ p.73のどんな2つのタップでも動く`tup+`
 ```
 
     ;; 3
+
+関数`one?`
+
+``` scm
+(define one?
+  (lambda (n) (= n 1)))
+```
+
+    ;; one?
+
+書き直した`rempick`
+
+``` scm
+(define rempick
+  (lambda (n lat)
+    (cond
+     ((one? n) (cdr lat))
+     (else (cons (car lat)
+                 (rempick (sub1 n)
+                          (cdr lat)))))))
+```
+
+    ;; rempick
+
+``` scm
+(rempick 3 '(lemon meringue salty pie))
+```
+
+    ;; (lemon meringue pie)
