@@ -44,3 +44,14 @@ minor_version <- read_u2(con)
 major_version <- read_u2(con)
 constant_pool_count <- read_u2(con)
 constant_pool <- replicate(constant_pool_count - 1, read_cp_info(con))
+access_flags <- read_u2(con)
+this_class <- read_u2(con)
+super_class <- read_u2(con)
+interfaces_count <- read_u2(con)
+# interfaces
+fields_count <- read_u2(con)
+# fields
+methods_count <- read_u2(con)
+
+this_class_name <- constant_pool[[constant_pool[[this_class]]$name_index]]
+super_class_name <- constant_pool[[constant_pool[[super_class]]$name_index]]
