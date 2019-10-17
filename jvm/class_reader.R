@@ -118,6 +118,7 @@ interfaces_count <- read_u2(con)
 fields_count <- read_u2(con)
 # fields
 methods_count <- read_u2(con)
+methods <- replicate(methods_count, read_method_info(con, constant_pool), simplify = FALSE)
 
 this_class_name <- constant_pool[[constant_pool[[this_class]]$name_index]]
 super_class_name <- constant_pool[[constant_pool[[super_class]]$name_index]]
