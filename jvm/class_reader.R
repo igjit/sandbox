@@ -95,7 +95,10 @@ read_attribute <- function(con, constant_pool) {
                 attribute_length = attribute_length,
                 line_number_table_length = line_number_table_length,
                 line_number_table = line_number_table)
-         }
+         },
+         SourceFile = list(attribute_name_index = attribute_name_index,
+                           attribute_name = attribute_name,
+                           sourcefile_index = read_u2(con))
          )
 }
 
@@ -119,6 +122,8 @@ fields_count <- read_u2(con)
 # fields
 methods_count <- read_u2(con)
 methods <- replicate(methods_count, read_method_info(con, constant_pool), simplify = FALSE)
+attributes_count <- read_u2(con)
+attributes <- replicate(attributes_count, read_attribute(con, constant_pool), simplify = FALSE)
 
 this_class_name <- constant_pool[[constant_pool[[this_class]]$name_index]]
 super_class_name <- constant_pool[[constant_pool[[super_class]]$name_index]]
