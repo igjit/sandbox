@@ -14,6 +14,12 @@ read_u1 <- function(con) readBin(con, "integer", 1, 1, FALSE, "big")
 
 read_u2 <- function(con) readBin(con, "integer", 1, 2, FALSE, "big")
 
+read_u4 <- function(con) {
+  # FIXME
+  readBin(con, "integer", 1, 2, FALSE, "big")
+  readBin(con, "integer", 1, 2, FALSE, "big")
+}
+
 read_cp_info <- function(con) {
   tag <- read_u1(con)
   tag_name <- cp_tag_names[as.character(tag)]
@@ -31,6 +37,66 @@ read_cp_info <- function(con) {
                                              descriptor_index = read_u2(con)))
 
   c(tag = tag, info)
+}
+
+read_method_info <- function(con, constant_pool) {
+  access_flags <- read_u2(con)
+  name_index <- read_u2(con)
+  name <- constant_pool[[name_index]]$bytes
+  descriptor_index <- read_u2(con)
+  descriptor <- constant_pool[[descriptor_index]]$bytes
+  attributes_count <- read_u2(con)
+  attributes <- replicate(attributes_count, read_attribute(con, constant_pool), simplify = FALSE)
+  list(access_flags = access_flags,
+       name_index = name_index,
+       name = name,
+       descriptor_index = descriptor_index,
+       descriptor = descriptor,
+       attributes_count = attributes_count,
+       attributes = attributes)
+}
+
+read_attribute <- function(con, constant_pool) {
+  attribute_name_index <- read_u2(con)
+  attribute_length <- read_u4(con)
+  attribute_name <- constant_pool[[attribute_name_index]]$bytes
+  switch(attribute_name,
+         Code = {
+           max_stack <- read_u2(con)
+           max_locals <- read_u2(con)
+           code_length <- read_u4(con)
+           code <- readBin(con, "integer", code_length, 1, FALSE, "big")
+           exception_table_length <- read_u2(con)
+           # TODO
+           if (exception_table_length > 0) stop()
+           exception_table <- list()
+           attributes_count <- read_u2(con)
+           attributes <- replicate(attributes_count, read_attribute(con, constant_pool), simplify = FALSE)
+           list(attribute_name_index = attribute_name_index,
+                attribute_name = attribute_name,
+                attribute_length = attribute_length,
+                max_stack = max_stack,
+                max_locals = max_locals,
+                code_length = code_length,
+                code = code,
+                exception_table_length = exception_table_length,
+                exception_table = exception_table,
+                attributes_count = attributes_count,
+                attributes = attributes)
+         },
+         LineNumberTable = {
+           line_number_table_length <- read_u2(con)
+           line_number_table <- replicate(line_number_table_length,
+                                          list(start_pc = read_u2(con),
+                                               line_number = read_u2(con)),
+                                          simplify = FALSE)
+           list(attribute_name_index = attribute_name_index,
+                attribute_name = attribute_name,
+                attribute_length = attribute_length,
+                line_number_table_length = line_number_table_length,
+                line_number_table = line_number_table)
+         }
+         )
 }
 
 class_file <- "Hello.class"
