@@ -102,28 +102,42 @@ read_attribute <- function(con, constant_pool) {
          )
 }
 
-class_file <- "Hello.class"
-con <- file(class_file, "rb")
-on.exit(close(con))
+read_class <- function(con) {
+  magic <- readBin(con, "raw", 4, NA, FALSE, "big")
+  minor_version <- read_u2(con)
+  major_version <- read_u2(con)
+  constant_pool_count <- read_u2(con)
+  constant_pool <- replicate(constant_pool_count - 1, read_cp_info(con), simplify = FALSE)
+  access_flags <- read_u2(con)
+  this_class <- read_u2(con)
+  this_class_name <- constant_pool[[constant_pool[[this_class]]$name_index]]$bytes
+  super_class <- read_u2(con)
+  super_class_name <- constant_pool[[constant_pool[[super_class]]$name_index]]$bytes
+  interfaces_count <- read_u2(con)
+  # interfaces
+  fields_count <- read_u2(con)
+  # fields
+  methods_count <- read_u2(con)
+  methods <- replicate(methods_count, read_method_info(con, constant_pool), simplify = FALSE)
+  attributes_count <- read_u2(con)
+  attributes <- replicate(attributes_count, read_attribute(con, constant_pool), simplify = FALSE)
 
-reset(con)
+  list(magic = magic,
+       minor_version = minor_version,
+       major_version = major_version,
+       constant_pool = constant_pool,
+       access_flags = access_flags,
+       this_class = this_class,
+       this_class_name = this_class_name,
+       super_class = super_class,
+       super_class_name = super_class_name,
+       methods = methods,
+       attributes = attributes)
+}
 
-magic <- readBin(con, "raw", 4, NA, FALSE, "big")
-minor_version <- read_u2(con)
-major_version <- read_u2(con)
-constant_pool_count <- read_u2(con)
-constant_pool <- replicate(constant_pool_count - 1, read_cp_info(con), simplify = FALSE)
-access_flags <- read_u2(con)
-this_class <- read_u2(con)
-super_class <- read_u2(con)
-interfaces_count <- read_u2(con)
-# interfaces
-fields_count <- read_u2(con)
-# fields
-methods_count <- read_u2(con)
-methods <- replicate(methods_count, read_method_info(con, constant_pool), simplify = FALSE)
-attributes_count <- read_u2(con)
-attributes <- replicate(attributes_count, read_attribute(con, constant_pool), simplify = FALSE)
-
-this_class_name <- constant_pool[[constant_pool[[this_class]]$name_index]]
-super_class_name <- constant_pool[[constant_pool[[super_class]]$name_index]]
+read_hello <- function() {
+  class_file <- "Hello.class"
+  con <- file(class_file, "rb")
+  on.exit(close(con))
+  read_class(con)
+}
