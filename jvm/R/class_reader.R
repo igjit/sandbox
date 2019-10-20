@@ -15,9 +15,9 @@ read_u1 <- function(con) readBin(con, "integer", 1, 1, FALSE, "big")
 read_u2 <- function(con) readBin(con, "integer", 1, 2, FALSE, "big")
 
 read_u4 <- function(con) {
-  # FIXME
-  readBin(con, "integer", 1, 2, FALSE, "big")
-  readBin(con, "integer", 1, 2, FALSE, "big")
+  u2_1 <- read_u2(con)
+  u2_2 <- read_u2(con)
+  bitwShiftL(u2_1, 16) + u2_2
 }
 
 read_cp_info <- function(con) {
