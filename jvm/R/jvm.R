@@ -46,10 +46,17 @@ exec <- function(java_class) {
                    field <- constant_pool[[constant_pool[[symbol_name_index$name_and_type_index]]$name_index]]$bytes
                    name <- paste(cls, field, sep = ".")
                    stack$push(name)
+               },
+               ldc = {
+                   index <- code[pc]
+                   pc <<- pc + 1
+                   name <- constant_pool[[constant_pool[[3]]$string_index]]$bytes
+                   stack$push(name)
                })
     }
 
     # FIXME
+    exec1()
     exec1()
     list(stack, pc)
 }
