@@ -71,11 +71,10 @@ exec <- function(java_class) {
                    object_name <- stack$pop()
                    object <- java_objects[[object_name]]
                    do.call(object[[method_name]], args)
-               })
+               },
+               return = NULL,
+               stop("Not Implemented"))
     }
 
-    # FIXME
-    exec1()
-    exec1()
-    list(stack, pc)
+    while(pc <= length(code)) exec1()
 }
