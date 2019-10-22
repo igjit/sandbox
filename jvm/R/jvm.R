@@ -22,6 +22,10 @@ Stack <- setRefClass("Stack",
                                     },
                                     is_empty = function() length(stack) == 0))
 
+PrintStream <- setRefClass("PrintStream",
+                           methods = list(println = function(x) cat(x, "\n", sep = "")))
+System.out <- PrintStream$new()
+java_objects <- list("java/lang/System.out" = System.out)
 exec <- function(java_class) {
     constant_pool <- java_class$constant_pool
     main_method <- java_class$methods %>%
