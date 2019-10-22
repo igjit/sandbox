@@ -56,6 +56,18 @@ exec <- function(java_class) {
                    pc <<- pc + 1
                    name <- constant_pool[[constant_pool[[3]]$string_index]]$bytes
                    stack$push(name)
+               },
+               invokevirtual = {
+                   index <- as_u2(code[pc], code[pc + 1])
+                   pc <<- pc + 2
+                   callee <- constant_pool[[constant_pool[[index]]$name_and_type_index]]
+                   method_name <- constant_pool[[callee$name_index]]$bytes
+                   descriptor <- constant_pool[[callee$descriptor_index]]$bytes
+                   argc <- stringr::str_count(descriptor, ";")
+                   args <- replicate(argc, stack$pop(), simplify = FALSE)
+                   object_name <- stack$pop()
+                   object <- java_objects[[object_name]]
+                   do.call(object[[method_name]], args)
                })
     }
 
