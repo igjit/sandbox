@@ -134,11 +134,3 @@ read_class <- function(con) {
        methods = methods,
        attributes = attributes)
 }
-
-read_hello <- function() {
-  # FIXME
-  class_file <- "../Hello.class"
-  con <- file(class_file, "rb")
-  on.exit(close(con))
-  read_class(con)
-}
