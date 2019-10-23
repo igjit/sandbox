@@ -57,7 +57,7 @@ exec <- function(java_class) {
                ldc = {
                    index <- code[pc]
                    pc <<- pc + 1
-                   name <- constant_pool[[constant_pool[[3]]$string_index]]$bytes
+                   name <- constant_pool[[constant_pool[[index]]$string_index]]$bytes
                    stack$push(name)
                },
                invokevirtual = {
