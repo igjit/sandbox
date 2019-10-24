@@ -14,15 +14,7 @@ knitr::opts_chunk$set(handle = handle)
 ```
 
 ```{scm include=FALSE}
-(define atom?
-  (lambda (x)
-    (and (not (pair? x)) (not (null? x)))))
-
-(define add1
-  (lambda (n) (+ n 1)))
-
-(define sub1
-  (lambda (n) (- n 1)))
+(load "./little.scm")
 ```
 
 関数`o+`
