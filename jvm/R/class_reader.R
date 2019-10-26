@@ -9,8 +9,7 @@ cp_tags <- c(CONSTANT_Utf8 = 1,
              CONSTANT_Methodref = 10,
              CONSTANT_NameAndType = 12)
 
-cp_tag_names <- names(cp_tags)
-names(cp_tag_names) <- cp_tags
+cp_tag_name_of <- name_lookup(cp_tags)
 
 reset <- function(con) seek(con, 0, "start")
 
@@ -26,7 +25,7 @@ read_u4 <- function(con) {
 
 read_cp_info <- function(con) {
   tag <- read_u1(con)
-  tag_name <- cp_tag_names[as.character(tag)]
+  tag_name <- cp_tag_name_of(tag)
   info <- switch(tag_name,
                  CONSTANT_Utf8 = {
                    length <- read_u2(con)

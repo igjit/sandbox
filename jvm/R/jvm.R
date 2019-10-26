@@ -7,8 +7,7 @@ instructions <- c(ldc = 18,
                   getstatic = 178,
                   invokevirtual = 182)
 
-instruction_names <- names(instructions)
-names(instruction_names) <- instructions
+instruction_name_of <- name_lookup(instructions)
 
 as_u2 <- function(byte1, byte2) bitwShiftL(byte1, 8) + byte2
 
@@ -43,7 +42,7 @@ exec <- function(java_class) {
     exec1 <- function() {
         instruction <- code[pc]
         pc <<- pc + 1
-        instruction_name <- instruction_names[as.character(instruction)]
+        instruction_name <- instruction_name_of(instruction)
         switch(instruction_name,
                getstatic = {
                    cp_index <- as_u2(code[pc], code[pc + 1])
