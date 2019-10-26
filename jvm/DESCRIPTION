@@ -17,4 +17,4 @@ Imports:
     purrr,
     magrittr
 Suggests: 
-    testthat
+    testthat (>= 2.1.0)

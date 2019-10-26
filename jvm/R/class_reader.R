@@ -1,3 +1,7 @@
+name_lookup <- function(v) {
+  function(x) names(which(v == x))
+}
+
 cp_tags <- c(CONSTANT_Utf8 = 1,
              CONSTANT_Class = 7,
              CONSTANT_String = 8,
