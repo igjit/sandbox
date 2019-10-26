@@ -16,3 +16,5 @@ Imports:
     stringr,
     purrr,
     magrittr
+Suggests: 
+    testthat
