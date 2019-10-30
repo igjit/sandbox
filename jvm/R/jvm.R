@@ -34,7 +34,7 @@ exec <- function(java_class) {
         detect(~ .$name == "main")
     code <- main_method$attributes %>%
         detect(~ .$attribute_name == "Code") %>%
-        `$`("code")
+        .$code
 
     stack <- Stack$new()
     pc <- 1
