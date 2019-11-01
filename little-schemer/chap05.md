@@ -130,3 +130,24 @@
 ```
 
     ;; ((how much (wood)) could ((a (wood) pecker chuck)) (((pecker chuck))) (if (a) ((wood pecker chuck))) could pecker chuck wood)
+
+関数`member*`
+
+``` scm
+(define member*
+  (lambda (a l)
+    (cond
+     ((null? l) #f)
+     ((atom? (car l))
+      (or (eq? (car l) a)
+          (member* a (cdr l))))
+     (else
+      (or (member* a (car l))
+          (member* a (cdr l)))))))
+```
+
+``` scm
+(member* 'chips '((potato) (chips ((with) fish) (chips))))
+```
+
+    ;; #t

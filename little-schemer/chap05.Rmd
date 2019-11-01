@@ -136,3 +136,22 @@ knitr::opts_chunk$set(handle = handle)
           '((how much (wood)) could ((a (wood) chuck))
             (((chuck))) (if (a) ((wood chuck))) could chuck wood))
 ```
+
+関数`member*`
+
+```{scm results=FALSE}
+(define member*
+  (lambda (a l)
+    (cond
+     ((null? l) #f)
+     ((atom? (car l))
+      (or (eq? (car l) a)
+          (member* a (cdr l))))
+     (else
+      (or (member* a (car l))
+          (member* a (cdr l)))))))
+```
+
+```{scm}
+(member* 'chips '((potato) (chips ((with) fish) (chips))))
+```
