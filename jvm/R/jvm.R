@@ -1,4 +1,5 @@
 #' @import purrr
+#' @import dequer
 #' @importFrom magrittr %>%
 NULL
 
@@ -10,16 +11,6 @@ instructions <- c(ldc = 18,
 instruction_name_of <- name_lookup(instructions)
 
 as_u2 <- function(byte1, byte2) bitwShiftL(byte1, 8) + byte2
-
-Stack <- setRefClass("Stack",
-                     fields = c(stack = "list"),
-                     methods = list(push = function(x) stack <<- c(list(x), stack),
-                                    pop = function() {
-                                      x <- stack[[1]]
-                                      stack <<- stack[-1]
-                                      x
-                                    },
-                                    is_empty = function() length(stack) == 0))
 
 PrintStream <- setRefClass("PrintStream",
                            methods = list(println = function(x) cat(x, "\n", sep = "")))
@@ -36,7 +27,7 @@ exec <- function(java_class) {
     detect(~ .$attribute_name == "Code") %>%
     .$code
 
-  stack <- Stack$new()
+  st <- stack()
   pc <- 1
 
   exec1 <- function() {
@@ -51,13 +42,13 @@ exec <- function(java_class) {
              cls <- constant_pool[[constant_pool[[symbol_name_index$class_index]]$name_index]]$bytes
              field <- constant_pool[[constant_pool[[symbol_name_index$name_and_type_index]]$name_index]]$bytes
              name <- paste(cls, field, sep = ".")
-             stack$push(name)
+             push(st, name)
            },
            ldc = {
              index <- code[pc]
              pc <<- pc + 1
              name <- constant_pool[[constant_pool[[index]]$string_index]]$bytes
-             stack$push(name)
+             push(st, name)
            },
            invokevirtual = {
              index <- as_u2(code[pc], code[pc + 1])
@@ -66,8 +57,8 @@ exec <- function(java_class) {
              method_name <- constant_pool[[callee$name_index]]$bytes
              descriptor <- constant_pool[[callee$descriptor_index]]$bytes
              argc <- stringr::str_count(descriptor, ";")
-             args <- replicate(argc, stack$pop(), simplify = FALSE)
-             object_name <- stack$pop()
+             args <- replicate(argc, pop(st), simplify = FALSE)
+             object_name <- pop(st)
              object <- java_objects[[object_name]]
              do.call(object[[method_name]], args)
            },
