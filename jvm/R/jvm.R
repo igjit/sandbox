@@ -23,21 +23,19 @@ exec <- function(java_class) {
   constant_pool <- java_class$constant_pool
   main_method <- java_class$methods %>%
     detect(~ .$name == "main")
-  code <- main_method$attributes %>%
+  code_vec <- main_method$attributes %>%
     detect(~ .$attribute_name == "Code") %>%
     .$code
+  code <- as.queue(as.list(code_vec))
 
   st <- stack()
-  pc <- 1
 
   exec1 <- function() {
-    instruction <- code[pc]
-    pc <<- pc + 1
+    instruction <- pop(code)
     instruction_name <- instruction_name_of(instruction)
     switch(instruction_name,
            getstatic = {
-             cp_index <- as_u2(code[pc], code[pc + 1])
-             pc <<- pc + 2
+             cp_index <- as_u2(pop(code), pop(code))
              symbol_name_index <- constant_pool[[cp_index]]
              cls <- constant_pool[[constant_pool[[symbol_name_index$class_index]]$name_index]]$bytes
              field <- constant_pool[[constant_pool[[symbol_name_index$name_and_type_index]]$name_index]]$bytes
@@ -45,14 +43,12 @@ exec <- function(java_class) {
              push(st, name)
            },
            ldc = {
-             index <- code[pc]
-             pc <<- pc + 1
+             index <- pop(code)
              name <- constant_pool[[constant_pool[[index]]$string_index]]$bytes
              push(st, name)
            },
            invokevirtual = {
-             index <- as_u2(code[pc], code[pc + 1])
-             pc <<- pc + 2
+             index <- as_u2(pop(code), pop(code))
              callee <- constant_pool[[constant_pool[[index]]$name_and_type_index]]
              method_name <- constant_pool[[callee$name_index]]$bytes
              descriptor <- constant_pool[[callee$descriptor_index]]$bytes
@@ -66,5 +62,5 @@ exec <- function(java_class) {
            stop("Not Implemented"))
   }
 
-  while(pc <= length(code)) exec1()
+  while(length(code) > 0) exec1()
 }
