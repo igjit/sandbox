@@ -155,3 +155,17 @@ knitr::opts_chunk$set(handle = handle)
 ```{scm}
 (member* 'chips '((potato) (chips ((with) fish) (chips))))
 ```
+
+関数`leftmost`
+
+```{scm results=FALSE}
+(define leftmost
+  (lambda (l)
+    (cond
+     ((atom? (car l)) (car l))
+     (else (leftmost (car l))))))
+```
+
+```{scm}
+(leftmost '((potato) (chips ((with) fish) (chips))))
+```

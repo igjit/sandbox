@@ -151,3 +151,19 @@
 ```
 
     ;; #t
+
+関数`leftmost`
+
+``` scm
+(define leftmost
+  (lambda (l)
+    (cond
+     ((atom? (car l)) (car l))
+     (else (leftmost (car l))))))
+```
+
+``` scm
+(leftmost '((potato) (chips ((with) fish) (chips))))
+```
+
+    ;; potato
