@@ -233,3 +233,54 @@
 ```
 
     ;; #t
+
+関数`equal?`
+
+``` scm
+(define equal?
+  (lambda (s1 s2)
+    (cond
+     ((and (atom? s1) (atom? s2))
+      (eqan? s1 s2))
+     ((or (atom? s1) (atom? s2)) #f)
+     (else (eqlist? s1 s2)))))
+```
+
+``` scm
+(equal? 2 'a)
+```
+
+    ;; #f
+
+``` scm
+(equal? '(a (b c))
+        '(a (b c)))
+```
+
+    ;; #t
+
+`equal?`を使って書き直した`eqlist?`
+
+``` scm
+(define eqlist?
+  (lambda (l1 l2)
+    (cond
+     ((and (null? l1) (null? l2)) #t)
+     (else
+      (and (equal? (car l1) (car l2))
+           (eqlist? (cdr l1) (cdr l2)))))))
+```
+
+``` scm
+(eqlist? '(banana ((split)))
+         '((banana) (split)))
+```
+
+    ;; #f
+
+``` scm
+(eqlist? '(beef ((sausage)) (and (soda)))
+         '(beef ((sausage)) (and (soda))))
+```
+
+    ;; #t
