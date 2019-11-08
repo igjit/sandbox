@@ -270,3 +270,36 @@ knitr::opts_chunk$set(handle = handle)
 (eqlist? '(beef ((sausage)) (and (soda)))
          '(beef ((sausage)) (and (soda))))
 ```
+
+関数`rember`
+
+```{scm results=FALSE}
+(define rember
+  (lambda (s l)
+    (cond
+     ((null? l) (quote ()))
+     ((equal? (car l) s)
+      (cdr l))
+     (else
+      (cons (car l)
+            (rember s (cdr l)))))))
+```
+
+```{scm}
+(rember '((tea) cup) '((coffee) cup ((tea) cup) (and (hick)) cup))
+```
+
+`=`と`eq?`を`equal?`に置き換えて動かなくなった`eqan?`
+
+(`equal?`内で`eqan?`が呼ばれて無限ループになる)
+
+```{scm results=FALSE}
+(define eqan?
+  (lambda (a1 a2)
+    (cond
+     ((and (number? a1) (number? a2))
+      (equal? a1 a2))
+     ((or (number? a1) (number? a2))
+      #f)
+     (else (equal? a1 a2)))))
+```
