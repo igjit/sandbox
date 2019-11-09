@@ -1,0 +1,38 @@
+---
+output:
+  github_document:
+    md_extensions: "+ignore_line_breaks"
+---
+
+# 6章 影法師
+
+```{r setup, include=FALSE}
+library(knitscm)
+gosh_path <- system2("which", "gosh", stdout = TRUE)
+handle <- knitscm::run_scheme(gosh_path, "-i")
+knitr::opts_chunk$set(handle = handle)
+```
+
+```{scm include=FALSE}
+(load "./little.scm")
+```
+
+関数`numbered?`
+
+```{scm results=FALSE}
+(define numbered?
+  (lambda (aexp)
+    (cond
+     ((atom? aexp) (number? aexp))
+     (else
+      (and (numbered? (car aexp))
+           (numbered? (car (cdr (cdr aexp)))))))))
+```
+
+```{scm}
+(numbered? '(3 + (4 ↑ 5)))
+```
+
+```{scm}
+(numbered? '(2 × sausage))
+```
