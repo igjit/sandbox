@@ -24,3 +24,33 @@
 ```
 
     ;; #f
+
+関数`value`
+
+``` scm
+(define value
+  (lambda (nexp)
+    (cond
+     ((atom? nexp) nexp)
+     ((eq? (car (cdr nexp)) (quote +))
+      (o+ (value (car nexp))
+          (value (car (cdr (cdr nexp))))))
+     ((eq? (car (cdr nexp)) (quote ×))
+      (× (value (car nexp))
+          (value (car (cdr (cdr nexp))))))
+     (else
+      (↑ (value (car nexp))
+          (value (car (cdr (cdr nexp)))))))))
+```
+
+``` scm
+(value '(1 + 3))
+```
+
+    ;; 4
+
+``` scm
+(value '(1 + (3 ↑ 4)))
+```
+
+    ;; 82
