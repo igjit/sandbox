@@ -54,3 +54,51 @@
 ```
 
     ;; 82
+
+補助関数`1st-sub-exp`
+
+``` scm
+(define 1st-sub-exp
+  (lambda (aexp)
+    (car (cdr aexp))))
+```
+
+補助関数`2nd-sub-exp`
+
+``` scm
+(define 2nd-sub-exp
+  (lambda (aexp)
+    (car (cdr (cdr aexp)))))
+```
+
+補助関数`operator`
+
+``` scm
+(define operator
+  (lambda (aexp)
+    (car aexp)))
+```
+
+前置記法の算術式に対する`value`
+
+``` scm
+(define value
+  (lambda (nexp)
+    (cond
+     ((atom? nexp) nexp)
+     ((eq? (operator nexp) (quote +))
+      (o+ (value (1st-sub-exp nexp))
+          (value (2nd-sub-exp nexp))))
+     ((eq? (operator nexp) (quote +))
+      (× (value (1st-sub-exp nexp))
+          (value (2nd-sub-exp nexp))))
+     (else
+      (↑ (value (1st-sub-exp nexp))
+          (value (2nd-sub-exp nexp)))))))
+```
+
+``` scm
+(value '(+ 1 (↑ 3 4)))
+```
+
+    ;; 82
