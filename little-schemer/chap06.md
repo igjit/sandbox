@@ -102,3 +102,23 @@
 ```
 
     ;; 82
+
+補助関数を書き換えて中置記法に戻す
+
+``` scm
+(define 1st-sub-exp
+  (lambda (aexp)
+    (car aexp)))
+```
+
+``` scm
+(define operator
+  (lambda (aexp)
+    (car (cdr aexp))))
+```
+
+``` scm
+(value '(1 + (3 ↑ 4)))
+```
+
+    ;; 82
