@@ -131,3 +131,37 @@ knitr::opts_chunk$set(handle = handle)
 ```{scm}
 (value '(1 + (3 ↑ 4)))
 ```
+
+数の他の表現
+
+```{scm results=FALSE}
+(define sero?
+  (lambda (n)
+    (null? n)))
+```
+
+```{scm results=FALSE}
+(define edd1
+  (lambda (n)
+    (cons (quote ()) n)))
+```
+
+```{scm results=FALSE}
+(define zub1
+  (lambda (n)
+    (cdr n)))
+```
+
+この表現を使って書き直した`o+`
+
+```{scm results=FALSE}
+(define o+
+  (lambda (n m)
+    (cond
+     ((sero? m) n)
+     (else (edd1 (o+ n (zub1 m)))))))
+```
+
+```{scm}
+(o+ '(() ()) '(() () ()))
+```

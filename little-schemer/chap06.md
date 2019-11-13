@@ -122,3 +122,39 @@
 ```
 
     ;; 82
+
+数の他の表現
+
+``` scm
+(define sero?
+  (lambda (n)
+    (null? n)))
+```
+
+``` scm
+(define edd1
+  (lambda (n)
+    (cons (quote ()) n)))
+```
+
+``` scm
+(define zub1
+  (lambda (n)
+    (cdr n)))
+```
+
+この表現を使って書き直した`o+`
+
+``` scm
+(define o+
+  (lambda (n m)
+    (cond
+     ((sero? m) n)
+     (else (edd1 (o+ n (zub1 m)))))))
+```
+
+``` scm
+(o+ '(() ()) '(() () ()))
+```
+
+    ;; (() () () () ())
