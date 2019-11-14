@@ -1,0 +1,53 @@
+---
+output:
+  github_document:
+    md_extensions: "+ignore_line_breaks"
+---
+
+# 7章 友達と親類
+
+```{r setup, include=FALSE}
+library(knitscm)
+gosh_path <- system2("which", "gosh", stdout = TRUE)
+handle <- knitscm::run_scheme(gosh_path, "-i")
+knitr::opts_chunk$set(handle = handle)
+```
+
+```{scm include=FALSE}
+(load "./little.scm")
+```
+
+[equal?](http://practical-scheme.net/gauche/man/gauche-refj/Deng-Jia-Xing-toBi-Jiao-.html#index-equal_003f)を使った`member?`
+
+```{scm results=FALSE}
+(define member?
+  (lambda (a lat)
+    (cond
+     ((null? lat) #f)
+     (else
+      (or (equal? (car lat) a)
+          (member? a (cdr lat)))))))
+```
+
+```{scm}
+(member? 'meat '(mashed potatos and meat gravy))
+```
+
+関数`set?`
+
+```{scm results=FALSE}
+(define set?
+  (lambda (lat)
+    (cond
+     ((null? lat) #t)
+     ((member? (car lat) (cdr lat)) #f)
+     (else (set? (cdr lat))))))
+```
+
+```{scm}
+(set? '(apple peaches apple plum))
+```
+
+```{scm}
+(set? '(apple peaches pears plum))
+```
