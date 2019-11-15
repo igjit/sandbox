@@ -1,7 +1,8 @@
 
 # 7章 友達と親類
 
-[equal?](http://practical-scheme.net/gauche/man/gauche-refj/Deng-Jia-Xing-toBi-Jiao-.html#index-equal_003f)を使った`member?`
+(準備)
+[equal?](http://practical-scheme.net/gauche/man/gauche-refj/Deng-Jia-Xing-toBi-Jiao-.html#index-equal_003f)を使った`member?`と`multirember`
 
 ``` scm
 (define member?
@@ -11,13 +12,16 @@
      (else
       (or (equal? (car lat) a)
           (member? a (cdr lat)))))))
-```
 
-``` scm
-(member? 'meat '(mashed potatos and meat gravy))
+(define multirember
+  (lambda (a lat)
+    (cond
+     ((null? lat) (quote ()))
+     ((equal? (car lat) a)
+      (multirember a (cdr lat)))
+     (else (cons (car lat)
+                 (multirember a (cdr lat)))))))
 ```
-
-    ;; #t
 
 関数`set?`
 
@@ -41,3 +45,44 @@
 ```
 
     ;; #t
+
+`member?`を使った`markeset`
+
+``` scm
+(define makeset
+  (lambda (lat)
+    (cond
+     ((null? lat) (quote ()))
+     ((member? (car lat) (cdr lat))
+      (makeset (cdr lat)))
+     (else
+      (cons (car lat) (makeset (cdr lat)))))))
+```
+
+``` scm
+(makeset '(apple peach pear peach plum apple lemon peach))
+```
+
+    ;; (pear plum apple lemon peach)
+
+`multirember`を使った`markeset`
+
+``` scm
+(define makeset
+  (lambda (lat)
+    (cond
+     ((null? lat) (quote ()))
+     (else
+      (cons (car lat)
+            (makeset
+             (multirember (car lat)
+                          (cdr lat))))))))
+```
+
+``` scm
+(makeset '(apple peach pear peach plum apple lemon peach))
+```
+
+    ;; (apple peach pear plum lemon)
+
+※ 本の`(makeset lat)`の結果は誤植と思われる。
