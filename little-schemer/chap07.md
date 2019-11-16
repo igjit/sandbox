@@ -86,3 +86,48 @@
     ;; (apple peach pear plum lemon)
 
 ※ 本の`(makeset lat)`の結果は誤植と思われる。
+
+関数`subset?`
+
+``` scm
+(define subset?
+  (lambda (set1 set2)
+    (cond
+     ((null? set1) #t)
+     ((member? (car set1) set2)
+      (subset? (cdr set1) set2))
+     (else #f))))
+```
+
+``` scm
+(subset? '(5 chicken wings)
+         '(5 hamburgers
+           2 pieces fried chicken and
+           light duckling wings))
+```
+
+    ;; #t
+
+``` scm
+(subset? '(4 pounds of horseradish)
+         '(four pounds chicken and5
+           ounces horseradish))
+```
+
+    ;; #f
+
+関数`eqset?`
+
+``` scm
+(define eqset?
+  (lambda (set1 set2)
+    (and (subset? set1 set2)
+         (subset? set2 set1))))
+```
+
+``` scm
+(eqset? '(6 large chickens with wings)
+        '(6 chickens with large wings))
+```
+
+    ;; #t
