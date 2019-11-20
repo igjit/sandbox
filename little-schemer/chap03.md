@@ -13,8 +13,6 @@ p.35の未完成な`rember`
              (else (rember a (cdr lat))))))))
 ```
 
-    ;; rember
-
 baconを除く
 
 ``` scm
@@ -44,8 +42,6 @@ p.38の`rember`
                         (rember a (cdr lat)))))))))
 ```
 
-    ;; rember
-
 ``` scm
 (rember 'and '(bacon lettuce and tomato))
 ```
@@ -63,8 +59,6 @@ p.41の簡単化した`rember`
      (else (cons (car lat)
                  (rember a (cdr lat)))))))
 ```
-
-    ;; rember
 
 ``` scm
 (rember 'and '(bacon lettuce and tomato))
@@ -87,8 +81,6 @@ p.41の簡単化した`rember`
      ((null? l) (quote ()))
      (else (cons (car (car l)) (firsts (cdr l)))))))
 ```
-
-    ;; firsts
 
 ``` scm
 (firsts '((a b) (c d) (e f)))
@@ -113,8 +105,6 @@ p.41の簡単化した`rember`
                             (cdr lat)))))))))
 ```
 
-    ;; insertR
-
 ``` scm
 (insertR 'topping 'fudge '(ice cream with fudge for dessert))
 ```
@@ -137,8 +127,6 @@ p.41の簡単化した`rember`
                             (cdr lat)))))))))
 ```
 
-    ;; insertL
-
 ``` scm
 (insertL 'x 'b '(a b c d))
 ```
@@ -160,8 +148,6 @@ p.41の簡単化した`rember`
                    (subst new old
                             (cdr lat)))))))))
 ```
-
-    ;; subst
 
 ``` scm
 (subst 'topping 'fudge '(ice cream with fudge for dessert))
@@ -186,8 +172,6 @@ p.41の簡単化した`rember`
                            (cdr lat)))))))))
 ```
 
-    ;; subst2
-
 ``` scm
 (subst2 'vanilla 'chocolate 'banana '(banana ice creamwith chocolate topping))
 ```
@@ -206,8 +190,6 @@ p.41の簡単化した`rember`
      (else (cons (car lat)
                  (multirember a (cdr lat)))))))
 ```
-
-    ;; multirember
 
 ``` scm
 (multirember 'cup '(coffee cup tea cup and hick cup))
@@ -230,8 +212,6 @@ p.41の簡単化した`rember`
                  (multiinsertR new old (cdr lat)))))))
 ```
 
-    ;; multiinsertR
-
 ``` scm
 (multiinsertR 'x 'b '(a b c d b e))
 ```
@@ -253,8 +233,6 @@ p.41の簡単化した`rember`
                  (multiinsertL new old (cdr lat)))))))
 ```
 
-    ;; multiinsertL
-
 ``` scm
 (multiinsertL 'x 'b '(a b c d b e))
 ```
@@ -273,8 +251,6 @@ p.41の簡単化した`rember`
      (else (cons (car lat)
                  (multisubst new old (cdr lat)))))))
 ```
-
-    ;; multisubst
 
 ``` scm
 (multisubst 'x 'b '(a b c d b e))

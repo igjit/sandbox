@@ -19,7 +19,7 @@ knitr::opts_chunk$set(handle = handle)
 
 関数`o+`
 
-```{scm}
+```{scm results=FALSE}
 (define o+
   (lambda (n m)
     (cond
@@ -33,7 +33,7 @@ knitr::opts_chunk$set(handle = handle)
 
 関数`o-`
 
-```{scm}
+```{scm results=FALSE}
 (define o-
   (lambda (n m)
     (cond
@@ -47,7 +47,7 @@ knitr::opts_chunk$set(handle = handle)
 
 関数`addtup`
 
-```{scm}
+```{scm results=FALSE}
 (define addtup
   (lambda (tup)
     (cond
@@ -61,7 +61,7 @@ knitr::opts_chunk$set(handle = handle)
 
 関数`×`
 
-```{scm}
+```{scm results=FALSE}
 (define ×
   (lambda (n m)
     (cond
@@ -75,7 +75,7 @@ knitr::opts_chunk$set(handle = handle)
 
 p.70の`tup+`
 
-```{scm}
+```{scm results=FALSE}
 (define tup+
   (lambda (tup1 tup2)
     (cond
@@ -92,7 +92,7 @@ p.70の`tup+`
 
 p.73のどんな2つのタップでも動く`tup+`
 
-```{scm}
+```{scm results=FALSE}
 (define tup+
   (lambda (tup1 tup2)
     (cond
@@ -109,7 +109,7 @@ p.73のどんな2つのタップでも動く`tup+`
 
 関数`＞`
 
-```{scm}
+```{scm results=FALSE}
 (define ＞
   (lambda (n m)
     (cond
@@ -132,7 +132,7 @@ p.73のどんな2つのタップでも動く`tup+`
 
 関数`＜`
 
-```{scm}
+```{scm results=FALSE}
 (define ＜
   (lambda (n m)
     (cond
@@ -155,7 +155,7 @@ p.73のどんな2つのタップでも動く`tup+`
 
 関数`＝`
 
-```{scm}
+```{scm results=FALSE}
 (define ＝
   (lambda (n m)
     (cond
@@ -174,7 +174,7 @@ p.73のどんな2つのタップでも動く`tup+`
 
 関数`↑`
 
-```{scm}
+```{scm results=FALSE}
 (define ↑
   (lambda (n m)
     (cond
@@ -188,7 +188,7 @@ p.73のどんな2つのタップでも動く`tup+`
 
 関数`÷`
 
-```{scm}
+```{scm results=FALSE}
 (define ÷
   (lambda (n m)
     (cond
@@ -202,7 +202,7 @@ p.73のどんな2つのタップでも動く`tup+`
 
 関数`length`
 
-```{scm}
+```{scm results=FALSE}
 (define length
   (lambda (lat)
     (cond
@@ -216,7 +216,7 @@ p.73のどんな2つのタップでも動く`tup+`
 
 関数`pick`
 
-```{scm}
+```{scm results=FALSE}
 (define pick
   (lambda (n lat)
     (cond
@@ -230,7 +230,7 @@ p.73のどんな2つのタップでも動く`tup+`
 
 関数`rempick`
 
-```{scm}
+```{scm results=FALSE}
 (define rempick
   (lambda (n lat)
     (cond
@@ -246,7 +246,7 @@ p.73のどんな2つのタップでも動く`tup+`
 
 関数`no-nums`
 
-```{scm}
+```{scm results=FALSE}
 (define no-nums
   (lambda (lat)
     (cond
@@ -263,7 +263,7 @@ p.73のどんな2つのタップでも動く`tup+`
 
 関数`all-nums`
 
-```{scm}
+```{scm results=FALSE}
 (define all-nums
   (lambda (lat)
     (cond
@@ -281,7 +281,7 @@ p.73のどんな2つのタップでも動く`tup+`
 
 関数`eqan?`
 
-```{scm}
+```{scm results=FALSE}
 (define eqan?
   (lambda (a1 a2)
     (cond
@@ -306,7 +306,7 @@ p.73のどんな2つのタップでも動く`tup+`
 
 関数`occur`
 
-```{scm}
+```{scm results=FALSE}
 (define occur
   (lambda (a lat)
     (cond
@@ -323,14 +323,14 @@ p.73のどんな2つのタップでも動く`tup+`
 
 関数`one?`
 
-```{scm}
+```{scm results=FALSE}
 (define one?
   (lambda (n) (= n 1)))
 ```
 
 書き直した`rempick`
 
-```{scm}
+```{scm results=FALSE}
 (define rempick
   (lambda (n lat)
     (cond

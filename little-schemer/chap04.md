@@ -11,8 +11,6 @@
      (else (add1 (o+ n (sub1 m)))))))
 ```
 
-    ;; o+
-
 ``` scm
 (o+ 46 12)
 ```
@@ -28,8 +26,6 @@
      ((zero? m) n)
      (else (sub1 (o- n (sub1 m)))))))
 ```
-
-    ;; o-
 
 ``` scm
 (o- 14 3)
@@ -47,8 +43,6 @@
      (else (o+ (car tup) (addtup (cdr tup)))))))
 ```
 
-    ;; addtup
-
 ``` scm
 (addtup '(3 5 2 8))
 ```
@@ -64,8 +58,6 @@
      ((zero? m) 0)
      (else (o+ n (× n (sub1 m)))))))
 ```
-
-    ;; ×
 
 ``` scm
 (× 12 3)
@@ -86,8 +78,6 @@ p.70の`tup+`
             (tup+ (cdr tup1) (cdr tup2)))))))
 ```
 
-    ;; tup+
-
 ``` scm
 (tup+ '(3 7) '(4 6))
 ```
@@ -107,8 +97,6 @@ p.73のどんな2つのタップでも動く`tup+`
             (tup+ (cdr tup1) (cdr tup2)))))))
 ```
 
-    ;; tup+
-
 ``` scm
 (tup+ '(3 7) '(4 6 8 1))
 ```
@@ -125,8 +113,6 @@ p.73のどんな2つのタップでも動く`tup+`
      ((zero? m) #t)
      (else (＞ (sub1 n) (sub1 m))))))
 ```
-
-    ;; ＞
 
 ``` scm
 (＞ 12 133)
@@ -157,8 +143,6 @@ p.73のどんな2つのタップでも動く`tup+`
      (else (＜ (sub1 n) (sub1 m))))))
 ```
 
-    ;; ＜
-
 ``` scm
 (＜ 4 6)
 ```
@@ -188,8 +172,6 @@ p.73のどんな2つのタップでも動く`tup+`
      (else #t))))
 ```
 
-    ;; ＝
-
 ``` scm
 (＝ 2 3)
 ```
@@ -212,8 +194,6 @@ p.73のどんな2つのタップでも動く`tup+`
      (else (× n (↑ n (sub1 m)))))))
 ```
 
-    ;; ↑
-
 ``` scm
 (↑ 2 3)
 ```
@@ -229,8 +209,6 @@ p.73のどんな2つのタップでも動く`tup+`
      ((＜ n m) 0)
      (else (add1 (÷ (o- n m) m))))))
 ```
-
-    ;; ÷
 
 ``` scm
 (÷ 15 4)
@@ -248,8 +226,6 @@ p.73のどんな2つのタップでも動く`tup+`
      (else (add1 (length (cdr lat)))))))
 ```
 
-    ;; length
-
 ``` scm
 (length '(ham and cheese on rye))
 ```
@@ -265,8 +241,6 @@ p.73のどんな2つのタップでも動く`tup+`
      ((zero? (sub1 n)) (car lat))
      (else (pick (sub1 n) (cdr lat))))))
 ```
-
-    ;; pick
 
 ``` scm
 (pick 4 '(lasagna spaghetti ravioli macaroni meatball))
@@ -286,8 +260,6 @@ p.73のどんな2つのタップでも動く`tup+`
                           (cdr lat)))))))
 ```
 
-    ;; rempick
-
 ``` scm
 (rempick 3 '(hotdogs with hot mustard))
 ```
@@ -306,8 +278,6 @@ p.73のどんな2つのタップでも動く`tup+`
       (cons (car lat)
             (no-nums (cdr lat)))))))
 ```
-
-    ;; no-nums
 
 ``` scm
 (no-nums '(5 pears 6 prunes 9 dates))
@@ -329,8 +299,6 @@ p.73のどんな2つのタップでも動く`tup+`
       (all-nums (cdr lat))))))
 ```
 
-    ;; all-nums
-
 ``` scm
 (all-nums '(5 pears 6 prunes 9 dates))
 ```
@@ -349,8 +317,6 @@ p.73のどんな2つのタップでも動く`tup+`
       #f)
      (else (eq? a1 a2)))))
 ```
-
-    ;; eqan?
 
 ``` scm
 (eqan? 2 2)
@@ -383,8 +349,6 @@ p.73のどんな2つのタップでも動く`tup+`
       (occur a (cdr lat))))))
 ```
 
-    ;; occur
-
 ``` scm
 (occur 'a '(a b a c a e))
 ```
@@ -398,8 +362,6 @@ p.73のどんな2つのタップでも動く`tup+`
   (lambda (n) (= n 1)))
 ```
 
-    ;; one?
-
 書き直した`rempick`
 
 ``` scm
@@ -411,8 +373,6 @@ p.73のどんな2つのタップでも動く`tup+`
                  (rempick (sub1 n)
                           (cdr lat)))))))
 ```
-
-    ;; rempick
 
 ``` scm
 (rempick 3 '(lemon meringue salty pie))

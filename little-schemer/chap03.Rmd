@@ -15,7 +15,7 @@ knitr::opts_chunk$set(handle = handle)
 
 p.35の未完成な`rember`
 
-```{scm}
+```{scm results=FALSE}
 (define rember
   (lambda (a lat)
     (cond
@@ -39,7 +39,7 @@ andを除いたときにandの前にある全ての要素を失ってしまう
 
 p.38の`rember`
 
-```{scm}
+```{scm results=FALSE}
 (define rember
   (lambda (a lat)
     (cond
@@ -56,7 +56,7 @@ p.38の`rember`
 
 p.41の簡単化した`rember`
 
-```{scm}
+```{scm results=FALSE}
 (define rember
   (lambda (a lat)
     (cond
@@ -76,7 +76,7 @@ p.41の簡単化した`rember`
 
 関数`firsts`
 
-```{scm}
+```{scm results=FALSE}
 (define firsts
   (lambda (l)
     (cond
@@ -90,7 +90,7 @@ p.41の簡単化した`rember`
 
 関数`insertR`
 
-```{scm}
+```{scm results=FALSE}
 (define insertR
   (lambda (new old lat)
     (cond
@@ -111,7 +111,7 @@ p.41の簡単化した`rember`
 
 関数`insertL`
 
-```{scm}
+```{scm results=FALSE}
 (define insertL
   (lambda (new old lat)
     (cond
@@ -131,7 +131,7 @@ p.41の簡単化した`rember`
 
 関数`subst`
 
-```{scm}
+```{scm results=FALSE}
 (define subst
   (lambda (new old lat)
     (cond
@@ -151,7 +151,7 @@ p.41の簡単化した`rember`
 
 関数`subst2`
 
-```{scm}
+```{scm results=FALSE}
 (define subst2
   (lambda (new o1 o2 lat)
     (cond
@@ -172,7 +172,7 @@ p.41の簡単化した`rember`
 
 関数`multirember`
 
-```{scm}
+```{scm results=FALSE}
 (define multirember
   (lambda (a lat)
     (cond
@@ -189,7 +189,7 @@ p.41の簡単化した`rember`
 
 関数`multiinsertR`
 
-```{scm}
+```{scm results=FALSE}
 (define multiinsertR
   (lambda (new old lat)
     (cond
@@ -208,7 +208,7 @@ p.41の簡単化した`rember`
 
 関数`multiinsertL`
 
-```{scm}
+```{scm results=FALSE}
 (define multiinsertL
   (lambda (new old lat)
     (cond
@@ -227,7 +227,7 @@ p.41の簡単化した`rember`
 
 関数`multisubst`
 
-```{scm}
+```{scm results=FALSE}
 (define multisubst
   (lambda (new old lat)
     (cond
