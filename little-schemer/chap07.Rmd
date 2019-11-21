@@ -203,3 +203,24 @@ knitr::opts_chunk$set(handle = handle)
                 (8 pears and 6 plums)
                 (and 6 prunes with lots of apples)))
 ```
+
+関数`a-pair?`
+
+```{scm results=FALSE}
+(define a-pair?
+  (lambda (x)
+    (cond
+     ((atom? x) #f)
+     ((null? x) #f)
+     ((null? (cdr x)) #f)
+     ((null? (cdr (cdr x))) #t)
+     (else #f))))
+```
+
+```{scm}
+(a-pair? '(1))
+```
+
+```{scm}
+(a-pair? '(3 7))
+```

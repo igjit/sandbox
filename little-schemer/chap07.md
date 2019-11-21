@@ -210,3 +210,28 @@
 ```
 
     ;; (6 and)
+
+関数`a-pair?`
+
+``` scm
+(define a-pair?
+  (lambda (x)
+    (cond
+     ((atom? x) #f)
+     ((null? x) #f)
+     ((null? (cdr x)) #f)
+     ((null? (cdr (cdr x))) #t)
+     (else #f))))
+```
+
+``` scm
+(a-pair? '(1))
+```
+
+    ;; #f
+
+``` scm
+(a-pair? '(3 7))
+```
+
+    ;; #t
