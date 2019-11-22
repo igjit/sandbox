@@ -235,3 +235,57 @@
 ```
 
     ;; #t
+
+補助関数 `first`, `second`, `build`
+
+``` scm
+(define first
+  (lambda (p) (car p)))
+
+(define second
+  (lambda (p) (car (cdr p))))
+
+(define build
+  (lambda (a1 a2)
+    (cons a1
+          (cons a2 (quote ())))))
+```
+
+関数`fun?`
+
+``` scm
+(define fun?
+  (lambda (rel)
+    (set? (firsts rel))))
+```
+
+``` scm
+(fun? '((8 3) (4 2) (7 6) (6 2) (3 4)))
+```
+
+    ;; #t
+
+``` scm
+(fun? '((b 4) (b 0) (b 9) (e 5) (g 4)))
+```
+
+    ;; #f
+
+関数`revrel`
+
+``` scm
+(define revrel
+  (lambda (rel)
+    (cond
+     ((null? rel) (quote ()))
+     (else
+      (cons (build (second (car rel))
+                   (first (car rel)))
+            (revrel (cdr rel)))))))
+```
+
+``` scm
+(revrel '((8 a) (pumpkin pie) (got sick)))
+```
+
+    ;; ((a 8) (pie pumpkin) (sick got))

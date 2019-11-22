@@ -224,3 +224,51 @@ knitr::opts_chunk$set(handle = handle)
 ```{scm}
 (a-pair? '(3 7))
 ```
+
+補助関数 `first`, `second`, `build`
+
+```{scm results=FALSE}
+(define first
+  (lambda (p) (car p)))
+
+(define second
+  (lambda (p) (car (cdr p))))
+
+(define build
+  (lambda (a1 a2)
+    (cons a1
+          (cons a2 (quote ())))))
+```
+
+関数`fun?`
+
+```{scm results=FALSE}
+(define fun?
+  (lambda (rel)
+    (set? (firsts rel))))
+```
+
+```{scm}
+(fun? '((8 3) (4 2) (7 6) (6 2) (3 4)))
+```
+
+```{scm}
+(fun? '((b 4) (b 0) (b 9) (e 5) (g 4)))
+```
+
+関数`revrel`
+
+```{scm results=FALSE}
+(define revrel
+  (lambda (rel)
+    (cond
+     ((null? rel) (quote ()))
+     (else
+      (cons (build (second (car rel))
+                   (first (car rel)))
+            (revrel (cdr rel)))))))
+```
+
+```{scm}
+(revrel '((8 a) (pumpkin pie) (got sick)))
+```

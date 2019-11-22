@@ -16,3 +16,9 @@
      ((or (number? a1) (number? a2))
       #f)
      (else (eq? a1 a2)))))
+
+(define firsts
+  (lambda (l)
+    (cond
+     ((null? l) (quote ()))
+     (else (cons (car (car l)) (firsts (cdr l)))))))
