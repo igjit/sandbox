@@ -33,6 +33,7 @@ exec <- function(java_class) {
   exec1 <- function() {
     instruction <- pop(code)
     instruction_name <- instruction_name_of(instruction)
+    if (length(instruction_name) == 0) stop("Unknown instruction: ", instruction)
     switch(instruction_name,
            getstatic = {
              cp_index <- as_u2(pop(code), pop(code))
@@ -59,7 +60,7 @@ exec <- function(java_class) {
              do.call(object[[method_name]], args)
            },
            return = NULL,
-           stop("Not Implemented"))
+           stop("Not implemented: ", instruction_name))
   }
 
   while(length(code) > 0) exec1()
