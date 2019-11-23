@@ -55,7 +55,8 @@ exec <- function(java_class) {
              callee <- constant_pool[[constant_pool[[index]]$name_and_type_index]]
              method_name <- constant_pool[[callee$name_index]]$bytes
              descriptor <- constant_pool[[callee$descriptor_index]]$bytes
-             argc <- stringr::str_count(descriptor, ";")
+             params <- parse_method_descriptor(descriptor)$parameter
+             argc <- length(params)
              args <- replicate(argc, pop(st), simplify = FALSE)
              object_name <- pop(st)
              object <- java_objects[[object_name]]
@@ -66,4 +67,16 @@ exec <- function(java_class) {
   }
 
   while(length(code) > 0) exec1()
+}
+
+parse_method_descriptor <- function(s) {
+  matches <- stringr::str_match(s, "\\((.+)\\)(.+)")
+  params <- matches[2]
+  ret <- matches[3]
+  list(parameter = parse_field_descriptors(params),
+       return = parse_field_descriptors(ret))
+}
+
+parse_field_descriptors <- function(s) {
+  stringr::str_extract_all(s, "([BCDFIJSZ]|L.+;)")[[1]]
 }
