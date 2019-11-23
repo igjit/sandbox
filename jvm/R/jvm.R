@@ -71,10 +71,8 @@ exec <- function(java_class) {
 
 parse_method_descriptor <- function(s) {
   matches <- stringr::str_match(s, "\\((.+)\\)(.+)")
-  params <- matches[2]
-  ret <- matches[3]
-  list(parameter = parse_field_descriptors(params),
-       return = parse_field_descriptors(ret))
+  list(parameter = parse_field_descriptors(matches[2]),
+       return = parse_field_descriptors(matches[3]))
 }
 
 parse_field_descriptors <- function(s) {
