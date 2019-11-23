@@ -69,6 +69,7 @@ exec <- function(java_class) {
   while(length(code) > 0) exec1()
 }
 
+# https://docs.oracle.com/javase/specs/jvms/se11/html/jvms-4.html#jvms-4.3.3
 parse_method_descriptor <- function(s) {
   matches <- stringr::str_match(s, "\\((.+)\\)(.+)")
   list(parameter = parse_field_descriptors(matches[2]),
