@@ -3,7 +3,8 @@
 #' @importFrom magrittr %>%
 NULL
 
-instructions <- c(ldc = 18,
+instructions <- c(bipush = 16,
+                  ldc = 18,
                   return = 177,
                   getstatic = 178,
                   invokevirtual = 182)
@@ -35,6 +36,7 @@ exec <- function(java_class) {
     instruction_name <- instruction_name_of(instruction)
     if (length(instruction_name) == 0) stop("Unknown instruction: ", instruction)
     switch(instruction_name,
+           bipush = push(st, pop(code)),
            getstatic = {
              cp_index <- as_u2(pop(code), pop(code))
              symbol_name_index <- constant_pool[[cp_index]]
