@@ -34,36 +34,39 @@ exec <- function(java_class) {
   exec1 <- function() {
     instruction <- pop(code)
     instruction_name <- instruction_name_of(instruction)
-    if (length(instruction_name) == 0) stop("Unknown instruction: ", instruction)
-    switch(instruction_name,
-           bipush = push(st, pop(code)),
-           getstatic = {
-             cp_index <- as_u2(pop(code), pop(code))
-             symbol_name_index <- constant_pool[[cp_index]]
-             cls <- constant_pool[[constant_pool[[symbol_name_index$class_index]]$name_index]]$bytes
-             field <- constant_pool[[constant_pool[[symbol_name_index$name_and_type_index]]$name_index]]$bytes
-             name <- paste(cls, field, sep = ".")
-             push(st, name)
-           },
-           ldc = {
-             index <- pop(code)
-             name <- constant_pool[[constant_pool[[index]]$string_index]]$bytes
-             push(st, name)
-           },
-           invokevirtual = {
-             index <- as_u2(pop(code), pop(code))
-             callee <- constant_pool[[constant_pool[[index]]$name_and_type_index]]
-             method_name <- constant_pool[[callee$name_index]]$bytes
-             descriptor <- constant_pool[[callee$descriptor_index]]$bytes
-             params <- parse_method_descriptor(descriptor)$parameter
-             argc <- length(params)
-             args <- replicate(argc, pop(st), simplify = FALSE)
-             object_name <- pop(st)
-             object <- java_objects[[object_name]]
-             do.call(object[[method_name]], args)
-           },
-           return = NULL,
-           stop("Not implemented: ", instruction_name))
+    if (length(instruction_name) == 0) {
+      stop("Unknown instruction: ", instruction)
+    } else {
+      switch(instruction_name,
+             bipush = push(st, pop(code)),
+             getstatic = {
+               cp_index <- as_u2(pop(code), pop(code))
+               symbol_name_index <- constant_pool[[cp_index]]
+               cls <- constant_pool[[constant_pool[[symbol_name_index$class_index]]$name_index]]$bytes
+               field <- constant_pool[[constant_pool[[symbol_name_index$name_and_type_index]]$name_index]]$bytes
+               name <- paste(cls, field, sep = ".")
+               push(st, name)
+             },
+             ldc = {
+               index <- pop(code)
+               name <- constant_pool[[constant_pool[[index]]$string_index]]$bytes
+               push(st, name)
+             },
+             invokevirtual = {
+               index <- as_u2(pop(code), pop(code))
+               callee <- constant_pool[[constant_pool[[index]]$name_and_type_index]]
+               method_name <- constant_pool[[callee$name_index]]$bytes
+               descriptor <- constant_pool[[callee$descriptor_index]]$bytes
+               params <- parse_method_descriptor(descriptor)$parameter
+               argc <- length(params)
+               args <- replicate(argc, pop(st), simplify = FALSE)
+               object_name <- pop(st)
+               object <- java_objects[[object_name]]
+               do.call(object[[method_name]], args)
+             },
+             return = NULL,
+             stop("Not implemented: ", instruction_name))
+    }
   }
 
   while(length(code) > 0) exec1()
