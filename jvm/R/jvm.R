@@ -11,6 +11,9 @@ instructions <- c(bipush = 16,
 
 instruction_name_of <- name_lookup(instructions)
 
+is_iconst_i <- function(instruction) instruction %in% 2:8
+iconst_of <- function(instruction) instruction - 3
+
 as_u2 <- function(byte1, byte2) bitwShiftL(byte1, 8) + byte2
 
 PrintStream <- setRefClass("PrintStream",
@@ -35,7 +38,11 @@ exec <- function(java_class) {
     instruction <- pop(code)
     instruction_name <- instruction_name_of(instruction)
     if (length(instruction_name) == 0) {
-      stop("Unknown instruction: ", instruction)
+      if (is_iconst_i(instruction)) {
+        push(st, iconst_of(instruction))
+      } else {
+        stop("Unknown instruction: ", instruction)
+      }
     } else {
       switch(instruction_name,
              bipush = push(st, pop(code)),
