@@ -14,6 +14,9 @@ instruction_name_of <- name_lookup(instructions)
 is_iconst_i <- function(instruction) instruction %in% 2:8
 i_of_iconst <- function(instruction) instruction - 3
 
+is_istore_n <- function(instruction) instruction %in% 59:62
+n_of_istore <- function(instruction) instruction - 59
+
 as_u2 <- function(byte1, byte2) bitwShiftL(byte1, 8) + byte2
 
 PrintStream <- setRefClass("PrintStream",
@@ -33,6 +36,7 @@ exec <- function(java_class) {
   code <- as.queue(as.list(code_vec))
 
   st <- stack()
+  frame <- list()
 
   exec1 <- function() {
     instruction <- pop(code)
@@ -40,6 +44,8 @@ exec <- function(java_class) {
     if (length(instruction_name) == 0) {
       if (is_iconst_i(instruction)) {
         push(st, i_of_iconst(instruction))
+      } else if (is_istore_n(instruction)) {
+        frame[[n_of_istore(instruction)]] <- pop(st)
       } else {
         stop("Unknown instruction: ", instruction)
       }
