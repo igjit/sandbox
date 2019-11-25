@@ -48,7 +48,7 @@ exec <- function(java_class) {
       if (is_iconst_i(instruction)) {
         push(st, i_of_iconst(instruction))
       } else if (is_istore_n(instruction)) {
-        frame[[n_of_istore(instruction)]] <- pop(st)
+        frame[[n_of_istore(instruction)]] <<- pop(st)
       } else if (is_iload_n(instruction)) {
         push(st, frame[[n_of_iload(instruction)]])
       } else {
