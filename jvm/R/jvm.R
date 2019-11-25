@@ -17,6 +17,9 @@ i_of_iconst <- function(instruction) instruction - 3
 is_istore_n <- function(instruction) instruction %in% 59:62
 n_of_istore <- function(instruction) instruction - 59
 
+is_iload_n <- function(instruction) instruction %in% 26:29
+n_of_iload <- function(instruction) instruction - 26
+
 as_u2 <- function(byte1, byte2) bitwShiftL(byte1, 8) + byte2
 
 PrintStream <- setRefClass("PrintStream",
@@ -46,6 +49,8 @@ exec <- function(java_class) {
         push(st, i_of_iconst(instruction))
       } else if (is_istore_n(instruction)) {
         frame[[n_of_istore(instruction)]] <- pop(st)
+      } else if (is_iload_n(instruction)) {
+        push(st, frame[[n_of_iload(instruction)]])
       } else {
         stop("Unknown instruction: ", instruction)
       }
