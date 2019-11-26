@@ -5,7 +5,6 @@ NULL
 
 instructions <- c(bipush = 16,
                   ldc = 18,
-                  iadd = 96,
                   return = 177,
                   getstatic = 178,
                   invokevirtual = 182)
@@ -20,6 +19,10 @@ n_of_istore <- function(instruction) instruction - 59
 
 is_iload_n <- function(instruction) instruction %in% 26:29
 n_of_iload <- function(instruction) instruction - 26
+
+int_arith <- c(iadd = 96)
+int_arith_op <- list(iadd = `+`)
+int_arith_name_of <- name_lookup(int_arith)
 
 as_u2 <- function(byte1, byte2) bitwShiftL(byte1, 8) + byte2
 
@@ -52,6 +55,12 @@ exec <- function(java_class) {
         frame[[n_of_istore(instruction)]] <<- pop(st)
       } else if (is_iload_n(instruction)) {
         push(st, frame[[n_of_iload(instruction)]])
+      } else if (instruction %in% int_arith) {
+        op <- int_arith_op[[int_arith_name_of(instruction)]]
+        value2 <- pop(st)
+        value1 <- pop(st)
+        result <- op(value1, value2)
+        push(st, result)
       } else {
         stop("Unknown instruction: ", instruction)
       }
@@ -70,11 +79,6 @@ exec <- function(java_class) {
                index <- pop(code)
                name <- constant_pool[[constant_pool[[index]]$string_index]]$bytes
                push(st, name)
-             },
-             iadd = {
-               value2 <- pop(st)
-               value1 <- pop(st)
-               push(st, value1 + value2)
              },
              invokevirtual = {
                index <- as_u2(pop(code), pop(code))
