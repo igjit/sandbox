@@ -5,6 +5,7 @@ NULL
 
 instructions <- c(bipush = 16,
                   ldc = 18,
+                  iinc = 132,
                   return = 177,
                   getstatic = 178,
                   invokevirtual = 182)
@@ -92,6 +93,11 @@ exec <- function(java_class) {
                index <- pop_code()
                name <- constant_pool[[constant_pool[[index]]$string_index]]$bytes
                push(st, name)
+             },
+             iinc = {
+               index <- pop_code()
+               const <- pop_code()
+               frame[[index]] <<- frame[[index]] + const
              },
              invokevirtual = {
                index <- as_u2(pop_code(), pop_code())
