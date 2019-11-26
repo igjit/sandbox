@@ -43,16 +43,23 @@ exec <- function(java_class) {
   constant_pool <- java_class$constant_pool
   main_method <- java_class$methods %>%
     detect(~ .$name == "main")
-  code_vec <- main_method$attributes %>%
+  code <- main_method$attributes %>%
     detect(~ .$attribute_name == "Code") %>%
     .$code
-  code <- as.queue(as.list(code_vec))
+
+  pc <- 1
+  pop_code <- function() {
+    if (length(code) < pc) stop()
+    ret <- code[pc]
+    pc <<- pc + 1
+    ret
+  }
 
   st <- stack()
   frame <- list()
 
   exec1 <- function() {
-    instruction <- pop(code)
+    instruction <- pop_code()
     instruction_name <- instruction_name_of(instruction)
     if (length(instruction_name) == 0) {
       if (is_iconst_i(instruction)) {
@@ -72,9 +79,9 @@ exec <- function(java_class) {
       }
     } else {
       switch(instruction_name,
-             bipush = push(st, pop(code)),
+             bipush = push(st, pop_code()),
              getstatic = {
-               cp_index <- as_u2(pop(code), pop(code))
+               cp_index <- as_u2(pop_code(), pop_code())
                symbol_name_index <- constant_pool[[cp_index]]
                cls <- constant_pool[[constant_pool[[symbol_name_index$class_index]]$name_index]]$bytes
                field <- constant_pool[[constant_pool[[symbol_name_index$name_and_type_index]]$name_index]]$bytes
@@ -82,12 +89,12 @@ exec <- function(java_class) {
                push(st, name)
              },
              ldc = {
-               index <- pop(code)
+               index <- pop_code()
                name <- constant_pool[[constant_pool[[index]]$string_index]]$bytes
                push(st, name)
              },
              invokevirtual = {
-               index <- as_u2(pop(code), pop(code))
+               index <- as_u2(pop_code(), pop_code())
                callee <- constant_pool[[constant_pool[[index]]$name_and_type_index]]
                method_name <- constant_pool[[callee$name_index]]$bytes
                descriptor <- constant_pool[[callee$descriptor_index]]$bytes
@@ -103,7 +110,7 @@ exec <- function(java_class) {
     }
   }
 
-  while(length(code) > 0) exec1()
+  while(pc <= length(code)) exec1()
 }
 
 # https://docs.oracle.com/javase/specs/jvms/se11/html/jvms-4.html#jvms-4.3.3
