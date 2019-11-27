@@ -99,6 +99,13 @@ read_attribute <- function(con, constant_pool) {
                 line_number_table_length = line_number_table_length,
                 line_number_table = line_number_table)
          },
+         StackMapTable = {
+           # TODO: parse stack_map_frame
+           readBin(con, "integer", attribute_length, 1, FALSE, "big")
+           list(attribute_name_index = attribute_name_index,
+                attribute_name = attribute_name,
+                attribute_length = attribute_length)
+         },
          SourceFile = list(attribute_name_index = attribute_name_index,
                            attribute_name = attribute_name,
                            sourcefile_index = read_u2(con)),
