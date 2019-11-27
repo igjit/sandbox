@@ -101,8 +101,8 @@ read_attribute <- function(con, constant_pool) {
          },
          SourceFile = list(attribute_name_index = attribute_name_index,
                            attribute_name = attribute_name,
-                           sourcefile_index = read_u2(con))
-         )
+                           sourcefile_index = read_u2(con)),
+         stop("Not implemented: ", attribute_name))
 }
 
 read_class <- function(con) {
