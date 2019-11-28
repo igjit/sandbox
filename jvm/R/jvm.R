@@ -6,6 +6,7 @@ NULL
 instructions <- c(bipush = 16,
                   ldc = 18,
                   iinc = 132,
+                  ifne = 154,
                   if_icmpge = 162,
                   goto = 167,
                   return = 177,
@@ -105,6 +106,12 @@ exec <- function(java_class) {
                index <- pop_code()
                const <- pop_code()
                frame[[index]] <<- frame[[index]] + const
+             },
+             ifne = {
+               adr <- pc - 1
+               offset <- as_s2(pop_code(), pop_code())
+               value <- pop(st)
+               if (value != 0) pc <<- adr + offset
              },
              if_icmpge = {
                adr <- pc - 1
