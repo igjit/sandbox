@@ -6,6 +6,8 @@ NULL
 instructions <- c(bipush = 16,
                   ldc = 18,
                   iinc = 132,
+                  if_icmpge = 162,
+                  goto = 167,
                   return = 177,
                   getstatic = 178,
                   invokevirtual = 182)
@@ -32,6 +34,11 @@ int_arith_op <- list(iadd = `+`,
 int_arith_name_of <- name_lookup(int_arith)
 
 as_u2 <- function(byte1, byte2) bitwShiftL(byte1, 8) + byte2
+
+as_s2 <- function(byte1, byte2) {
+  u2 <- as_u2(byte1, byte2)
+  bitwAnd(u2, 0x7fff) - bitwAnd(u2, 0x8000)
+}
 
 PrintStream <- setRefClass("PrintStream",
                            methods = list(println = function(x) cat(x, "\n", sep = "")))
@@ -98,6 +105,18 @@ exec <- function(java_class) {
                index <- pop_code()
                const <- pop_code()
                frame[[index]] <<- frame[[index]] + const
+             },
+             if_icmpge = {
+               adr <- pc - 1
+               offset <- as_s2(pop_code(), pop_code())
+               value2 <- pop(st)
+               value1 <- pop(st)
+               if (value1 >= value2) pc <<- adr + offset
+             },
+             goto = {
+               adr <- pc - 1
+               offset <- as_s2(pop_code(), pop_code())
+               pc <<- adr + offset
              },
              invokevirtual = {
                index <- as_u2(pop_code(), pop_code())
