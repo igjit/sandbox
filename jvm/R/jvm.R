@@ -35,8 +35,10 @@ int_arith_op <- list(iadd = `+`,
                      irem = `%%`)
 int_arith_name_of <- name_lookup(int_arith)
 
-if_icmp <- c(if_icmpge = 162)
-if_icmp_op <- list(if_icmpge = `>=`)
+if_icmp <- c(if_icmpge = 162,
+             if_icmpgt = 163)
+if_icmp_op <- list(if_icmpge = `>=`,
+                   if_icmpgt = `>`)
 if_icmp_name_of <- name_lookup(if_icmp)
 
 as_u2 <- function(byte1, byte2) bitwShiftL(byte1, 8) + byte2
