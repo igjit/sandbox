@@ -7,7 +7,6 @@ instructions <- c(bipush = 16,
                   ldc = 18,
                   iinc = 132,
                   ifne = 154,
-                  if_icmpge = 162,
                   goto = 167,
                   return = 177,
                   getstatic = 178,
@@ -35,6 +34,10 @@ int_arith_op <- list(iadd = `+`,
                      idiv = `%/%`,
                      irem = `%%`)
 int_arith_name_of <- name_lookup(int_arith)
+
+if_icmp <- c(if_icmpge = 162)
+if_icmp_op <- list(if_icmpge = `>=`)
+if_icmp_name_of <- name_lookup(if_icmp)
 
 as_u2 <- function(byte1, byte2) bitwShiftL(byte1, 8) + byte2
 
@@ -85,6 +88,13 @@ exec <- function(java_class) {
         value1 <- pop(st)
         result <- op(value1, value2)
         push(st, result)
+      } else if (instruction %in% if_icmp) {
+        adr <- pc - 1
+        offset <- as_s2(pop_code(), pop_code())
+        value2 <- pop(st)
+        value1 <- pop(st)
+        op <- if_icmp_op[[if_icmp_name_of(instruction)]]
+        if (op(value1, value2)) pc <<- adr + offset
       } else {
         stop("Unknown instruction: ", instruction)
       }
@@ -114,13 +124,6 @@ exec <- function(java_class) {
                offset <- as_s2(pop_code(), pop_code())
                value <- pop(st)
                if (value != 0) pc <<- adr + offset
-             },
-             if_icmpge = {
-               adr <- pc - 1
-               offset <- as_s2(pop_code(), pop_code())
-               value2 <- pop(st)
-               value1 <- pop(st)
-               if (value1 >= value2) pc <<- adr + offset
              },
              goto = {
                adr <- pc - 1
