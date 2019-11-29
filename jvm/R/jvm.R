@@ -27,11 +27,13 @@ n_of_iload <- function(instruction) instruction - 26
 int_arith <- c(iadd = 96,
                isub = 100,
                imul = 104,
-               idiv = 108)
+               idiv = 108,
+               irem = 112)
 int_arith_op <- list(iadd = `+`,
                      isub = `-`,
                      imul = `*`,
-                     idiv = `%/%`)
+                     idiv = `%/%`,
+                     irem = `%%`)
 int_arith_name_of <- name_lookup(int_arith)
 
 as_u2 <- function(byte1, byte2) bitwShiftL(byte1, 8) + byte2
