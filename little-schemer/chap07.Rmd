@@ -272,3 +272,27 @@ knitr::opts_chunk$set(handle = handle)
 ```{scm}
 (revrel '((8 a) (pumpkin pie) (got sick)))
 ```
+
+関数`revpair`
+
+```{scm results=FALSE}
+(define revpair
+  (lambda (pair)
+    (build (second pair) (first pair))))
+```
+
+`revpair`を使って書き直した`revrel`
+
+```{scm results=FALSE}
+(define revrel
+  (lambda (rel)
+    (cond
+     ((null? rel) (quote ()))
+     (else
+      (cons (revpair (car rel))
+            (revrel (cdr rel)))))))
+```
+
+```{scm}
+(revrel '((8 a) (pumpkin pie) (got sick)))
+```

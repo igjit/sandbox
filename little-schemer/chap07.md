@@ -289,3 +289,29 @@
 ```
 
     ;; ((a 8) (pie pumpkin) (sick got))
+
+関数`revpair`
+
+``` scm
+(define revpair
+  (lambda (pair)
+    (build (second pair) (first pair))))
+```
+
+`revpair`を使って書き直した`revrel`
+
+``` scm
+(define revrel
+  (lambda (rel)
+    (cond
+     ((null? rel) (quote ()))
+     (else
+      (cons (revpair (car rel))
+            (revrel (cdr rel)))))))
+```
+
+``` scm
+(revrel '((8 a) (pumpkin pie) (got sick)))
+```
+
+    ;; ((a 8) (pie pumpkin) (sick got))
