@@ -315,3 +315,53 @@
 ```
 
     ;; ((a 8) (pie pumpkin) (sick got))
+
+関数`seconds`
+
+``` scm
+(define seconds
+  (lambda (l)
+    (cond
+     ((null? l) (quote ()))
+     (else (cons (second (car l)) (seconds (cdr l)))))))
+```
+
+関数`fullfun?`
+
+``` scm
+(define fullfun?
+  (lambda (fun)
+    (set? (seconds fun))))
+```
+
+``` scm
+(fullfun? '((grape raisin) (plum prune) (stewed prune)))
+```
+
+    ;; #f
+
+``` scm
+(fullfun? '((grape raisin) (plum prune) (stewed grape)))
+```
+
+    ;; #t
+
+関数`one-to-one?`
+
+``` scm
+(define one-to-one?
+  (lambda (fun)
+    (fun? (revrel fun))))
+```
+
+``` scm
+(one-to-one? '((grape raisin) (plum prune) (stewed prune)))
+```
+
+    ;; #f
+
+``` scm
+(one-to-one? '((grape raisin) (plum prune) (stewed grape)))
+```
+
+    ;; #t

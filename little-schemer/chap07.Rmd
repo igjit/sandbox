@@ -296,3 +296,45 @@ knitr::opts_chunk$set(handle = handle)
 ```{scm}
 (revrel '((8 a) (pumpkin pie) (got sick)))
 ```
+
+関数`seconds`
+
+```{scm results=FALSE}
+(define seconds
+  (lambda (l)
+    (cond
+     ((null? l) (quote ()))
+     (else (cons (second (car l)) (seconds (cdr l)))))))
+```
+
+関数`fullfun?`
+
+```{scm results=FALSE}
+(define fullfun?
+  (lambda (fun)
+    (set? (seconds fun))))
+```
+
+```{scm}
+(fullfun? '((grape raisin) (plum prune) (stewed prune)))
+```
+
+```{scm}
+(fullfun? '((grape raisin) (plum prune) (stewed grape)))
+```
+
+関数`one-to-one?`
+
+```{scm results=FALSE}
+(define one-to-one?
+  (lambda (fun)
+    (fun? (revrel fun))))
+```
+
+```{scm}
+(one-to-one? '((grape raisin) (plum prune) (stewed prune)))
+```
+
+```{scm}
+(one-to-one? '((grape raisin) (plum prune) (stewed grape)))
+```
