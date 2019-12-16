@@ -1,0 +1,38 @@
+---
+output:
+  github_document:
+    md_extensions: "+ignore_line_breaks"
+---
+
+# 8章 究極のlambda
+
+```{r setup, include=FALSE}
+library(knitscm)
+gosh_path <- system2("which", "gosh", stdout = TRUE)
+handle <- knitscm::run_scheme(gosh_path, "-i")
+knitr::opts_chunk$set(handle = handle)
+```
+
+```{scm include=FALSE}
+(load "./little.scm")
+```
+
+関数`rember-f`
+
+```{scm results=FALSE}
+(define rember-f
+  (lambda (test? a l)
+    (cond
+     ((null? l) (quote ()))
+     ((test? (car l) a) (cdr l))
+     (else (cons (car l)
+                 (rember-f test? a (cdr l)))))))
+```
+
+```{scm}
+(rember-f = 5 '(6 2 5 3))
+```
+
+```{scm}
+(rember-f eq? 'jelly '(jelly beans are good))
+```
