@@ -24,3 +24,39 @@
 ```
 
     ;; (beans are good)
+
+関数`eq?-c`
+
+``` scm
+(define eq?-c
+  (lambda (a)
+    (lambda (x)
+      (eq? x a))))
+```
+
+`eq?-c`を使った関数`eq?-salad`
+
+``` scm
+(define eq?-salad
+  (eq?-c 'salad))
+```
+
+``` scm
+(eq?-salad 'salad)
+```
+
+    ;; #t
+
+``` scm
+(eq?-salad 'tuna)
+```
+
+    ;; #f
+
+名前を付ける必要はない
+
+``` scm
+((eq?-c 'salad) 'tuna)
+```
+
+    ;; #f

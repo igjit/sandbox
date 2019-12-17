@@ -36,3 +36,33 @@ knitr::opts_chunk$set(handle = handle)
 ```{scm}
 (rember-f eq? 'jelly '(jelly beans are good))
 ```
+
+関数`eq?-c`
+
+```{scm results=FALSE}
+(define eq?-c
+  (lambda (a)
+    (lambda (x)
+      (eq? x a))))
+```
+
+`eq?-c`を使った関数`eq?-salad`
+
+```{scm results=FALSE}
+(define eq?-salad
+  (eq?-c 'salad))
+```
+
+```{scm}
+(eq?-salad 'salad)
+```
+
+```{scm}
+(eq?-salad 'tuna)
+```
+
+名前を付ける必要はない
+
+```{scm}
+((eq?-c 'salad) 'tuna)
+```
