@@ -60,3 +60,22 @@
 ```
 
     ;; #f
+
+`test?`を受け取って関数を返すように書き換えた`rember-f`
+
+``` scm
+(define rember-f
+  (lambda (test?)
+    (lambda (a l)
+      (cond
+       ((null? l) (quote ()))
+       ((test? (car l) a) (cdr l))
+       (else (cons (car l)
+                   ((rember-f test?) a (cdr l))))))))
+```
+
+``` scm
+((rember-f eq?) 'tuna '(tuna salad is good))
+```
+
+    ;; (salad is good)
