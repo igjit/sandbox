@@ -79,3 +79,45 @@
 ```
 
     ;; (salad is good)
+
+関数`insertL-f`
+
+``` scm
+(define insertL-f
+  (lambda (test?)
+    (lambda (new old l)
+      (cond
+       ((null? l) (quote ()))
+       ((test? (car l) old)
+        (cons new (cons old (cdr l))))
+       (else
+        (cons (car l)
+              ((insertL-f test?) new old (cdr l))))))))
+```
+
+``` scm
+((insertL-f eq?)'x 'b '(a b c d))
+```
+
+    ;; (a x b c d)
+
+関数`insertR-f`
+
+``` scm
+(define insertR-f
+  (lambda (test?)
+    (lambda (new old l)
+      (cond
+       ((null? l) (quote ()))
+       ((test? (car l) old)
+        (cons old (cons new (cdr l))))
+       (else
+        (cons (car l)
+              ((insertR-f test?) new old (cdr l))))))))
+```
+
+``` scm
+((insertR-f eq?)'x 'b '(a b c d))
+```
+
+    ;; (a b x c d)
