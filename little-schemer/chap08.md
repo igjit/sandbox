@@ -96,7 +96,7 @@
 ```
 
 ``` scm
-((insertL-f eq?)'x 'b '(a b c d))
+((insertL-f eq?) 'x 'b '(a b c d))
 ```
 
     ;; (a x b c d)
@@ -117,7 +117,37 @@
 ```
 
 ``` scm
-((insertR-f eq?)'x 'b '(a b c d))
+((insertR-f eq?) 'x 'b '(a b c d))
 ```
 
     ;; (a b x c d)
+
+関数`insert-g`
+
+``` scm
+(define insert-g
+  (lambda (seq)
+    (lambda (new old l)
+      (cond
+       ((null? l) (quote ()))
+       ((eq? (car l) old)
+        (seq new old (cdr l)))
+       (else
+        (cons (car l)
+              ((insert-g seq) new old (cdr l))))))))
+```
+
+`insert-g`を使って定義した`insertL`
+
+``` scm
+(define insertL
+  (insert-g
+   (lambda (new old l)
+     (cons new (cons old l)))))
+```
+
+``` scm
+(insertL 'x 'b '(a b c d))
+```
+
+    ;; (a x b c d)
