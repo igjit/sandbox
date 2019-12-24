@@ -151,3 +151,23 @@
 ```
 
     ;; (a x b c d)
+
+補助関数`seqS`
+
+``` scm
+(define seqS
+  (lambda (new old l)
+    (cons new l)))
+```
+
+`seqS`を使って定義した`subst`
+
+``` scm
+(define subst (insert-g seqS))
+```
+
+``` scm
+(subst 'x 'b '(a b c d))
+```
+
+    ;; (a x c d)
