@@ -167,3 +167,19 @@ knitr::opts_chunk$set(handle = handle)
 ```{scm}
 (subst 'x 'b '(a b c d))
 ```
+
+関数`yyy`
+
+```{scm results=FALSE}
+(define seqrem
+  (lambda (new old l)
+    l))
+
+(define yyy
+  (lambda (a l)
+    ((insert-g seqrem) #f a l)))
+```
+
+```{scm}
+(yyy 'sausage '(pizza with sausage and bacon))
+```

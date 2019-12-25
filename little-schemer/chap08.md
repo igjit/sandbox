@@ -171,3 +171,21 @@
 ```
 
     ;; (a x c d)
+
+関数`yyy`
+
+``` scm
+(define seqrem
+  (lambda (new old l)
+    l))
+
+(define yyy
+  (lambda (a l)
+    ((insert-g seqrem) #f a l)))
+```
+
+``` scm
+(yyy 'sausage '(pizza with sausage and bacon))
+```
+
+    ;; (pizza with and bacon)
