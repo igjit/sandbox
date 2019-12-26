@@ -189,3 +189,33 @@
 ```
 
     ;; (pizza with and bacon)
+
+関数`atom-to-function`
+
+``` scm
+(define atom-to-function
+  (lambda (x)
+    (cond
+     ((eq? x (quote +)) o+)
+     ((eq? x (quote ×)) ×)
+     (else ↑))))
+```
+
+`atom-to-function`を使った`value`
+
+``` scm
+(define value
+  (lambda (nexp)
+    (cond
+     ((atom? nexp) nexp)
+     (else
+      ((atom-to-function (operator nexp))
+       (value (1st-sub-exp nexp))
+       (value (2nd-sub-exp nexp)))))))
+```
+
+``` scm
+(value '(1 + (2 ↑ 3)))
+```
+
+    ;; 9
