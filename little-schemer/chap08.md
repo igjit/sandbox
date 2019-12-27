@@ -219,3 +219,36 @@
 ```
 
     ;; 9
+
+関数`multirember-f`
+
+``` scm
+(define multirember-f
+  (lambda (test?)
+    (lambda (a lat)
+      (cond
+       ((null? lat) (quote ()))
+       ((test? (car lat) a)
+        ((multirember-f test?) a (cdr lat)))
+       (else (cons (car lat)
+                   ((multirember-f test?) a (cdr lat))))))))
+```
+
+``` scm
+((multirember-f eq?) 'tuna '(shrimp salad tuna salad and tuna))
+```
+
+    ;; (shrimp salad salad and)
+
+`multirember-f`を使った関数`multirember-eq?`
+
+``` scm
+(define multirember-eq?
+  (multirember-f eq?))
+```
+
+``` scm
+(multirember-eq? 'tuna '(shrimp salad tuna salad and tuna))
+```
+
+    ;; (shrimp salad salad and)
