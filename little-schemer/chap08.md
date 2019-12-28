@@ -252,3 +252,29 @@
 ```
 
     ;; (shrimp salad salad and)
+
+補助関数`eq?-tuna`
+
+``` scm
+(define eq?-tuna
+  (eq?-c 'tuna))
+```
+
+関数`multiremberT`
+
+``` scm
+(define multiremberT
+  (lambda (test? lat)
+    (cond
+     ((null? lat) (quote ()))
+     ((test? (car lat))
+      (multiremberT test? (cdr lat)))
+     (else (cons (car lat)
+                 (multiremberT test? (cdr lat)))))))
+```
+
+``` scm
+(multiremberT eq?-tuna '(shrimp salad tuna salad and tuna))
+```
+
+    ;; (shrimp salad salad and)

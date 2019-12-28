@@ -249,3 +249,27 @@ knitr::opts_chunk$set(handle = handle)
 ```{scm}
 (multirember-eq? 'tuna '(shrimp salad tuna salad and tuna))
 ```
+
+補助関数`eq?-tuna`
+
+```{scm results=FALSE}
+(define eq?-tuna
+  (eq?-c 'tuna))
+```
+
+関数`multiremberT`
+
+```{scm results=FALSE}
+(define multiremberT
+  (lambda (test? lat)
+    (cond
+     ((null? lat) (quote ()))
+     ((test? (car lat))
+      (multiremberT test? (cdr lat)))
+     (else (cons (car lat)
+                 (multiremberT test? (cdr lat)))))))
+```
+
+```{scm}
+(multiremberT eq?-tuna '(shrimp salad tuna salad and tuna))
+```
