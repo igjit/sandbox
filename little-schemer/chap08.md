@@ -278,3 +278,41 @@
 ```
 
     ;; (shrimp salad salad and)
+
+関数`multirember&co`
+
+``` scm
+(define multirember&co
+  (lambda (a lat col)
+    (cond
+     ((null? lat)
+      (col (quote ()) (quote ())))
+     ((eq? (car lat) a)
+      (multirember&co
+       a
+       (cdr lat)
+       (lambda (newlat seen)
+         (col newlat
+              (cons (car lat) seen)))))
+     (else
+      (multirember&co
+       a
+       (cdr lat)
+       (lambda (newlat seen)
+         (col (cons (car lat) newlat)
+              seen)))))))
+```
+
+補助関数`a-friend`
+
+``` scm
+(define a-friend
+  (lambda (x y)
+    (null? y)))
+```
+
+``` scm
+(multirember&co 'tuna '() a-friend)
+```
+
+    ;; #t
