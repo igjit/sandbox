@@ -311,3 +311,7 @@ knitr::opts_chunk$set(handle = handle)
 ```{scm}
 (multirember&co 'tuna '() a-friend)
 ```
+
+```{scm}
+(multirember&co 'tuna '(tuna) a-friend)
+```

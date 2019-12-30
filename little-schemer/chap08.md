@@ -316,3 +316,9 @@
 ```
 
     ;; #t
+
+``` scm
+(multirember&co 'tuna '(tuna) a-friend)
+```
+
+    ;; #f
