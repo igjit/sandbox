@@ -303,7 +303,7 @@
               seen)))))))
 ```
 
-補助関数`a-friend`
+収集子`a-friend`
 
 ``` scm
 (define a-friend
@@ -322,3 +322,23 @@
 ```
 
     ;; #f
+
+``` scm
+(multirember&co 'tuna '(and tuna) a-friend)
+```
+
+    ;; #f
+
+収集子`last-friend`
+
+``` scm
+(define last-friend
+  (lambda (x y)
+    (length x)))
+```
+
+``` scm
+(multirember&co 'tuna '(strawberries tuna and swordfish) last-friend)
+```
+
+    ;; 3

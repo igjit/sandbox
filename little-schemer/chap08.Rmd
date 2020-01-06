@@ -298,14 +298,12 @@ knitr::opts_chunk$set(handle = handle)
               seen)))))))
 ```
 
-補助関数`a-friend`
+収集子`a-friend`
 
 ```{scm results=FALSE}
 (define a-friend
   (lambda (x y)
     (null? y)))
-
-
 ```
 
 ```{scm}
@@ -314,4 +312,20 @@ knitr::opts_chunk$set(handle = handle)
 
 ```{scm}
 (multirember&co 'tuna '(tuna) a-friend)
+```
+
+```{scm}
+(multirember&co 'tuna '(and tuna) a-friend)
+```
+
+収集子`last-friend`
+
+```{scm results=FALSE}
+(define last-friend
+  (lambda (x y)
+    (length x)))
+```
+
+```{scm}
+(multirember&co 'tuna '(strawberries tuna and swordfish) last-friend)
 ```
