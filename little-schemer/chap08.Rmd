@@ -364,3 +364,24 @@ knitr::opts_chunk$set(handle = handle)
 ```{scm}
 (multiinsertLR&co 'salty 'fish 'chips '(chips and fish or fish and chips) list)
 ```
+
+関数`evens-only*`
+
+```{scm results=FALSE}
+(define evens-only*
+  (lambda (l)
+    (cond
+     ((null? l) (quote ()))
+     ((atom? (car l))
+      (cond
+       ((even? (car l))
+        (cons (car l)
+              (evens-only* (cdr l))))
+       (else (evens-only* (cdr l)))))
+     (else (cons (evens-only* (car l))
+                 (evens-only* (cdr l)))))))
+```
+
+```{scm}
+(evens-only* '((9 1 2 8) 3 10 ((9 9) 7 6) 2))
+```
