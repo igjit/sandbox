@@ -12,6 +12,15 @@ On Ubuntu 18.04:
 sudo snap install --classic kotlin
 ```
 
+On Mac:
+
+```sh
+curl -s https://get.sdkman.io | bash
+. ~/.bash_profile
+sdk install kotlin
+sdk install java
+```
+
 [kotlin-mode](https://github.com/Emacs-Kotlin-Mode-Maintainers/kotlin-mode)
 
 ```el
