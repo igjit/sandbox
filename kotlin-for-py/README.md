@@ -26,3 +26,16 @@ sdk install java
 ```el
 M-x package-install [RET] kotlin-mode [RET]
 ```
+
+For SDKMAN:
+
+```sh
+cp kotlinc.sh ~/bin/
+```
+
+```el
+(add-to-list 'exec-path "~/bin/")
+(defun my-kotlin-mode-setup ()
+  (setq-local kotlin-command "kotlinc.sh"))
+(add-hook 'kotlin-mode-hook 'my-kotlin-mode-setup)
+```
