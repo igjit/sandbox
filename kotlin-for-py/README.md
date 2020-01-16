@@ -1,8 +1,10 @@
 # kotlin-for-py
 
-<https://kotlinlang.org/docs/tutorials/kotlin-for-py/introduction.html>
+[Migrating from Python](https://kotlinlang.org/docs/tutorials/kotlin-for-py/introduction.html)
 
 ## Installation
+
+### Compiler
 
 [Working with the Command Line Compiler](https://kotlinlang.org/docs/tutorials/command-line.html)
 
@@ -20,6 +22,8 @@ curl -s https://get.sdkman.io | bash
 sdk install kotlin
 sdk install java
 ```
+
+### Emacs
 
 [kotlin-mode](https://github.com/Emacs-Kotlin-Mode-Maintainers/kotlin-mode)
 
