@@ -380,7 +380,7 @@
 
     ;; ((chips salty and salty fish or salty fish and chips salty) 2 2)
 
-関数`evens-only*`
+[even?](https://practical-scheme.net/gauche/man/gauche-refj/Shu-Zhi-.html#index-even_003f)を使った関数`evens-only*`
 
 ``` scm
 (define evens-only*
@@ -402,3 +402,50 @@
 ```
 
     ;; ((2 8) 10 (() 6) 2)
+
+関数`evens-only*&co`
+
+``` scm
+(define evens-only*&co
+  (lambda (l col)
+    (cond
+     ((null? l)
+      (col (quote ()) 1 0))
+     ((atom? (car l))
+      (cond
+       ((even? (car l))
+        (evens-only*&co (cdr l)
+                        (lambda (newl p s)
+                          (col (cons (car l) newl)
+                               (× (car l) p) s))))
+       (else
+        (evens-only*&co (cdr l)
+                        (lambda (newl p s)
+                          (col newl
+                               p (o+ (car l) s)))))))
+     (else
+      (evens-only*&co (car l)
+                      (lambda (al ap as)
+                        (evens-only*&co (cdr l)
+                                        (lambda (dl dp ds)
+                                          (col (cons al dl)
+                                               (× ap dp)
+                                               (o+ as ds))))))))))
+```
+
+収集子`the-last-friend`
+
+``` scm
+(define the-last-friend
+  (lambda (newl product sum)
+    (cons sum
+          (cons product newl))))
+```
+
+``` scm
+(evens-only*&co '((9 1 2 8) 3 10 ((9 9) 7 6) 2) the-last-friend)
+```
+
+    ;; (38 1920 (2 8) 10 (() 6) 2)
+
+※ 本の`(evens-only*&co l the-last-friend)`の結果は誤植と思われる。
