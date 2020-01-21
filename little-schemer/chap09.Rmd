@@ -1,0 +1,45 @@
+---
+output:
+  github_document:
+    md_extensions: "+ignore_line_breaks"
+---
+
+# 9章 …… もう一度、もう一度、もう一度、……
+
+```{r setup, include=FALSE}
+library(knitscm)
+gosh_path <- system2("which", "gosh", stdout = TRUE)
+handle <- knitscm::run_scheme(gosh_path, "-i")
+knitr::opts_chunk$set(handle = handle)
+```
+
+```{scm include=FALSE}
+(load "./little.scm")
+```
+
+関数`keep-looking`
+
+```{scm results=FALSE}
+(define keep-looking
+  (lambda (a sorn lat)
+    (cond
+     ((number? sorn)
+      (keep-looking a (pick sorn lat) lat))
+     (else (eq? sorn a)))))
+```
+
+関数`looking`
+
+```{scm results=FALSE}
+(define looking
+  (lambda (a lat)
+    (keep-looking a (pick 1 lat) lat)))
+```
+
+```{scm}
+(looking 'caviar '(6 2 4 caviar 5 7 3))
+```
+
+```{scm}
+(looking 'caviar '(6 2 grits caviar 5 7 3))
+```
