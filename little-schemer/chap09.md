@@ -31,3 +31,25 @@
 ```
 
     ;; #f
+
+関数`shift`
+
+``` scm
+(define shift
+  (lambda (pair)
+    (build (first (first pair))
+           (build (second (first pair))
+                  (second pair)))))
+```
+
+``` scm
+(shift '((a b) c))
+```
+
+    ;; (a (b c))
+
+``` scm
+(shift '((a b) (c d)))
+```
+
+    ;; (a (b (c d)))

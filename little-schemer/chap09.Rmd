@@ -15,6 +15,10 @@ knitr::opts_chunk$set(handle = handle)
 
 ```{scm include=FALSE}
 (load "./little.scm")
+
+(define first car)
+(define second cadr)
+(define build list)
 ```
 
 関数`keep-looking`
@@ -42,4 +46,22 @@ knitr::opts_chunk$set(handle = handle)
 
 ```{scm}
 (looking 'caviar '(6 2 grits caviar 5 7 3))
+```
+
+関数`shift`
+
+```{scm results=FALSE}
+(define shift
+  (lambda (pair)
+    (build (first (first pair))
+           (build (second (first pair))
+                  (second pair)))))
+```
+
+```{scm}
+(shift '((a b) c))
+```
+
+```{scm}
+(shift '((a b) (c d)))
 ```
