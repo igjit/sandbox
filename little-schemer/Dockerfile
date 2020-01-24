@@ -5,11 +5,6 @@ RUN apt update && apt install -y \
  && apt clean \
  && rm -rf /var/lib/apt/lists/*
 
-RUN install2.r --error \
-    subprocess \
+RUN installGithub.r \
+    igjit/knitscm@937c92d \
  && rm -rf /tmp/downloaded_packages/
-
-COPY r /tmp/r
-
-RUN Rscript --vanilla -e 'remotes::install_local("/tmp/r/knitscm")' \
- && rm -rf /tmp/r

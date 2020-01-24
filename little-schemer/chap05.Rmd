@@ -8,8 +8,7 @@ output:
 
 ```{r setup, include=FALSE}
 library(knitscm)
-gosh_path <- system2("which", "gosh", stdout = TRUE)
-handle <- knitscm::run_scheme(gosh_path, "-i")
+handle <- run_gauche()
 knitr::opts_chunk$set(handle = handle)
 ```
 
