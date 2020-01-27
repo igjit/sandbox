@@ -197,9 +197,6 @@ knitr::opts_chunk$set(handle = handle)
 `atom-to-function`を使った`value`
 
 ```{scm include=FALSE}
-(define o+ +)
-(define × *)
-(define ↑ expt)
 (define operator cadr)
 (define 1st-sub-exp car)
 (define 2nd-sub-exp caddr)

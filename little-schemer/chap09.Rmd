@@ -14,10 +14,6 @@ knitr::opts_chunk$set(handle = handle)
 
 ```{scm include=FALSE}
 (load "./little.scm")
-
-(define first car)
-(define second cadr)
-(define build list)
 ```
 
 関数`keep-looking`

@@ -37,3 +37,19 @@
      ((null? (cdr x)) #f)
      ((null? (cdr (cdr x))) #t)
      (else #f))))
+
+(define first car)
+
+(define second cadr)
+
+(define build list)
+
+(define o+ +)
+
+(define o- -)
+
+(define × *)
+
+(define ÷ quotient)
+
+(define ↑ expt)
