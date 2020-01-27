@@ -5,6 +5,9 @@ RUN apt update && apt install -y \
  && apt clean \
  && rm -rf /var/lib/apt/lists/*
 
-RUN installGithub.r \
+RUN install2.r --error \
+    subprocess
+
+RUN installGithub.r --update=FALSE \
     igjit/knitscm@937c92d \
  && rm -rf /tmp/downloaded_packages/
