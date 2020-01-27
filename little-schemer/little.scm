@@ -53,3 +53,8 @@
 (define ÷ quotient)
 
 (define ↑ expt)
+
+(define (revpair pair)
+  (build (second pair) (first pair)))
+
+(define (one? n) (= n 1))
