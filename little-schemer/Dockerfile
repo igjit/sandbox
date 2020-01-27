@@ -9,5 +9,5 @@ RUN install2.r --error \
     subprocess
 
 RUN installGithub.r --update=FALSE \
-    igjit/knitscm@937c92d \
+    igjit/knitscm@346e4b7 \
  && rm -rf /tmp/downloaded_packages/
