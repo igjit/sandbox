@@ -32,6 +32,14 @@
 
     ;; #f
 
+答えを返さない関数 `eternity`
+
+``` scm
+(define eternity
+  (lambda (x)
+    (eternity x)))
+```
+
 関数`shift`
 
 ``` scm
@@ -196,3 +204,258 @@
 ```
 
     ;; 7
+
+空リストに対して、ある関数が停止するかどうかを調べる関数`will-stop?`があるとする。
+
+``` scm
+(define will-stop?
+  (lambda (f)
+    ...))
+```
+
+関数`last-try`
+
+``` scm
+(define last-try
+  (lambda (x)
+    (and (will-stop? last-try)
+         (eternity x))))
+```
+
+> そのようなチューリング機械の存在を仮定すると「自身が停止すると判定したならば無限ループを行い、停止しないと判定したならば停止する」ような別のチューリング機械が構成でき、矛盾となる。
+> 
+> [停止性問題](https://ja.wikipedia.org/wiki/%E5%81%9C%E6%AD%A2%E6%80%A7%E5%95%8F%E9%A1%8C)
+
+空リストの長さを決める関数`length0`
+
+``` scm
+(lambda (l)
+  (cond
+   ((null? l) 0)
+   (else (add1 (eternity (cdr l))))))
+```
+
+1つ以下の要素からなるリストの長さを決める関数`length<=1`
+
+``` scm
+(lambda (l)
+  (cond
+   ((null? l) 0)
+   (else (add1 (length0 (cdr l))))))
+```
+
+中の`lenth0`をその定義で置き換えると
+
+``` scm
+(lambda (l)
+  (cond
+   ((null? l) 0)
+   (else (add1
+          ((lambda (l)
+             (cond
+              ((null? l) 0)
+              (else (add1 (eternity (cdr l))))))
+           (cdr l))))))
+```
+
+`length0`を生成する
+
+``` scm
+((lambda (length)
+   (lambda (l)
+     (cond
+      ((null? l) 0)
+      (else (add1 (length (cdr l)))))))
+ eternity)
+```
+
+`length<=1`を生成する
+
+``` scm
+((lambda (f)
+   (lambda (l)
+     (cond
+      ((null? l) 0)
+      (else (add1 (f (cdr l)))))))
+ ((lambda (g)
+    (lambda (l)
+      (cond
+       ((null? l) 0)
+       (else (add1 (g (cdr l)))))))
+  eternity))
+```
+
+`mk-length`を使って`length0`を生成する
+
+``` scm
+((lambda (mk-length)
+   (mk-length eternity))
+ (lambda (length)
+   (lambda (l)
+     (cond
+      ((null? l) 0)
+      (else (add1 (length (cdr l))))))))
+```
+
+`mk-length`を使って`length<=1`を生成する
+
+``` scm
+((lambda (mk-length)
+   (mk-length
+    (mk-length eternity)))
+ (lambda (length)
+   (lambda (l)
+     (cond
+      ((null? l) 0)
+      (else (add1 (length (cdr l))))))))
+```
+
+`eternity`を使わずに`length0`を生成する
+
+``` scm
+((lambda (mk-length)
+   (mk-length mk-length))
+ (lambda (mk-length)
+   (lambda (l)
+     (cond
+      ((null? l) 0)
+      (else (add1 (mk-length (cdr l))))))))
+```
+
+`mk-length`を1回適用して`length<=1`を得る
+
+``` scm
+((lambda (mk-length)
+   (mk-length mk-length))
+ (lambda (mk-length)
+   (lambda (l)
+     (cond
+      ((null? l) 0)
+      (else (add1 ((mk-length eternity)
+                   (cdr l))))))))
+```
+
+動作確認
+
+``` scm
+(((lambda (mk-length)
+    (mk-length mk-length))
+  (lambda (mk-length)
+    (lambda (l)
+      (cond
+       ((null? l) 0)
+       (else (add1 ((mk-length eternity)
+                    (cdr l))))))))
+ '(apples))
+```
+
+    ;; 1
+
+関数`length`
+
+``` scm
+((lambda (mk-length)
+   (mk-length mk-length))
+ (lambda (mk-length)
+   (lambda (l)
+     (cond
+      ((null? l) 0)
+      (else (add1 ((mk-length mk-length)
+                   (cdr l))))))))
+```
+
+動作確認
+
+``` scm
+(((lambda (mk-length)
+    (mk-length mk-length))
+  (lambda (mk-length)
+    (lambda (l)
+      (cond
+       ((null? l) 0)
+       (else (add1 ((mk-length mk-length)
+                    (cdr l))))))))
+ '(ham and cheese on rye))
+```
+
+    ;; 5
+
+p.170の動かない`length`
+
+``` scm
+((lambda (mk-length)
+   (mk-length mk-length))
+ (lambda (mk-length)
+   ((lambda (length)
+      (lambda (l)
+        (cond
+         ((null? l) 0)
+         (else (add1 (length (cdr l)))))))
+    (mk-length mk-length))))
+```
+
+p.174の動く`length`
+
+``` scm
+((lambda (mk-length)
+   (mk-length mk-length))
+ (lambda (mk-length)
+   ((lambda (length)
+      (lambda (l)
+        (cond
+         ((null? l) 0)
+         (else (add1 (length (cdr l)))))))
+    (lambda (x)
+      ((mk-length mk-length) x)))))
+```
+
+中の関数をくくり出すと
+
+``` scm
+((lambda (le)
+   ((lambda (mk-length)
+      (mk-length mk-length))
+    (lambda (mk-length)
+      (le (lambda (x)
+            ((mk-length mk-length) x))))))
+ (lambda (length)
+   (lambda (l)
+     (cond
+      ((null? l) 0)
+      (else (add1 (length (cdr l))))))))
+```
+
+ここでlengthを生成している関数は
+
+``` scm
+(lambda (le)
+  ((lambda (mk-length)
+     (mk-length mk-length))
+   (lambda (mk-length)
+     (le (lambda (x)
+           ((mk-length mk-length) x))))))
+```
+
+適用順Yコンビネータと呼ばれている。
+
+``` scm
+(define Y
+  (lambda (le)
+    ((lambda (f)
+       (f f))
+     (lambda (f)
+       (le (lambda (x)
+             ((f f) x)))))))
+```
+
+``` scm
+((Y
+  (lambda (length)
+    (lambda (l)
+      (cond
+       ((null? l) 0)
+       (else (add1 (length (cdr l))))))))
+ '(ham and cheese on rye))
+```
+
+    ;; 5
