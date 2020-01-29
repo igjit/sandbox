@@ -42,6 +42,8 @@
 
 (define second cadr)
 
+(define third caddr)
+
 (define build list)
 
 (define o+ +)
