@@ -84,3 +84,20 @@ calcBmis xs = [bmi w h | (w, h) <- xs]
 
 -- calcBmis [(60, 1.7), (80, 1.8)]
 
+-- 3.4 let It Be
+
+cylinder :: Double -> Double -> Double
+cylinder r h =
+  let sideArea = 2 * pi * r * h
+      topArea = pi * r ^ 2
+  in sideArea + 2 * topArea
+
+calcBmis' xs = [bmi | (w,h) <- xs, let bmi = w / h ^ 2]
+
+-- 3.5 case 式
+
+describeList :: [a] -> String
+describeList ls = "The list is "
+                  ++ case ls of [] -> "empty."
+                                [x] -> "a singleton list."
+                                xs -> "a longer list."
