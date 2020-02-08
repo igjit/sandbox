@@ -37,3 +37,14 @@ elem' a [] = False
 elem' a (x:xs)
   | a == x = True
   | otherwise = a `elem'` xs
+
+-- 4.3 クイック、ソート!
+
+quicksort :: (Ord a) => [a] -> [a]
+quicksort [] = []
+quicksort (x:xs) =
+  let smallerOrEqual = [a | a <- xs, a <= x]
+      larger = [a | a <- xs, a > x]
+  in quicksort smallerOrEqual ++ [x] ++ quicksort larger
+
+-- quicksort [10,2,5,3,1,6,7,4,2,3,4,8,9]
