@@ -54,3 +54,31 @@ chain n
 numLongChains :: Int
 numLongChains = length (filter isLong (map chain [1..100]))
   where isLong xs = length xs > 15
+
+-- 5.4 ラムダ式
+
+-- zipWith (\ a b -> (a * 30 + 3) / b) [5,4,3,2,1] [1,2,3,4,5]
+
+-- 5.5 畳み込み、見込みアリ!
+
+sum' :: (Num a) => [a] -> a
+sum' = foldl (+) 0
+
+map' :: (a -> b) -> [a] -> [b]
+map' f xs = foldr (\x acc -> f x : acc) [] xs
+
+maximum' :: (Ord a) => [a] -> a
+maximum' = foldl1 max
+
+reverse' :: [a] -> [a]
+reverse' = foldl (flip (:)) []
+
+and' :: [Bool] -> Bool
+and' xs = foldr (&&) True xs
+
+-- and' (repeat False)
+
+-- scanl (+) 0 [3,5,2,1]
+
+sqrtSums :: Int
+sqrtSums = length (takeWhile (<1000) (scanl1 (+) (map sqrt [1..]))) + 1
