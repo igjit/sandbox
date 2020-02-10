@@ -82,3 +82,15 @@ and' xs = foldr (&&) True xs
 
 sqrtSums :: Int
 sqrtSums = length (takeWhile (<1000) (scanl1 (+) (map sqrt [1..]))) + 1
+
+-- 5.6 $ を使った関数適用
+
+-- sum $ filter (> 10) $ map (*2) [2..10]
+
+-- map ($ 3) [(4+), (10*), (^2), sqrt]
+
+-- 5.7 関数合成
+
+-- map (negate . abs) [5,-3,-6,7,-3,2,-19,24]
+
+-- sum . replicate 5 $ max 6.7 8.9
