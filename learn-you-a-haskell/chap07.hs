@@ -48,3 +48,15 @@ vmult :: (Num a) => Vector a -> a -> Vector a
 -- Vector 3 5 8 `vplus` Vector 9 2 8
 -- Vector 3 9 7 `vmult` 10
 -- Vector 4 9 5 `dotProd` Vector 9.0 2.0 4.0
+
+-- 7.5 インスタンスの自動導出
+
+-- read "Just 3" :: Maybe Int
+
+-- Nothing < Just 100
+
+data Day = Monday | Tuesday | Wednesday | Thursday | Friday | Saturday | Sunday
+  deriving (Eq, Ord, Show, Read, Bounded, Enum)
+
+-- read "Saturday" :: Day
+-- Saturday > Friday
