@@ -1,3 +1,5 @@
+import qualified Data.Map as Map
+
 -- 7.2 形づくる
 
 -- data Shape = Circle Float Float Float | Rectangle Float Float Float Float deriving (Show)
@@ -60,3 +62,37 @@ data Day = Monday | Tuesday | Wednesday | Thursday | Friday | Saturday | Sunday
 
 -- read "Saturday" :: Day
 -- Saturday > Friday
+
+-- 7.6 型シノニム
+
+type PhoneNumber = String
+type Name = String
+type PhoneBook = [(Name, PhoneNumber)]
+
+inPhoneBook :: Name -> PhoneNumber -> PhoneBook -> Bool
+inPhoneBook name pnumber pbook = (name, pnumber) `elem` pbook
+
+data LockerState = Taken | Free deriving (Show, Eq)
+type Code = String
+type LockerMap = Map.Map Int (LockerState, Code)
+
+lockerLookup :: Int -> LockerMap -> Either String Code
+lockerLookup lockerNumber map = case Map.lookup lockerNumber map of
+  Nothing -> Left $ "Locker " ++ show lockerNumber ++ " doesn't exist!"
+  Just (state, code) -> if state /= Taken
+                        then Right code
+                        else Left $ "Locker " ++ show lockerNumber
+                             ++ " is already taken!"
+
+lockers :: LockerMap
+lockers = Map.fromList
+  [(100,(Taken, "ZD39I"))
+  ,(101,(Free, "JAH3I"))
+  ,(103,(Free, "IQSA9"))
+  ,(105,(Free, "QOTSA"))
+  ,(109,(Taken, "893JJ"))
+  ,(110,(Taken, "99292"))
+  ]
+
+-- lockerLookup 101 lockers
+-- lockerLookup 100 lockers
