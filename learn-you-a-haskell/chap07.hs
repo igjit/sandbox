@@ -187,3 +187,12 @@ instance YesNo TrafficLight where
 -- yesno $ length []
 -- yesno "haha"
 -- yesno ""
+
+yesnoIf :: (YesNo y) => y -> a -> a -> a
+yesnoIf yesnoVal yesResult noResult =
+  if yesno yesnoVal
+  then yesResult
+  else noResult
+
+-- yesnoIf [] "YEAH!" "NO!"
+-- yesnoIf [2,3,4] "YEAH!" "NO!"
