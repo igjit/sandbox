@@ -196,3 +196,17 @@ yesnoIf yesnoVal yesResult noResult =
 
 -- yesnoIf [] "YEAH!" "NO!"
 -- yesnoIf [2,3,4] "YEAH!" "NO!"
+
+-- 7.10 Functor 型クラス
+
+-- fmap (*2) [1..3]
+
+-- fmap (++ " HEY GUYS IM INSIDE THE JUST") (Just "Something serious.")
+-- fmap (++ " HEY GUYS IM INSIDE THE JUST") Nothing
+
+instance Functor Tree where
+  fmap f EmptyTree = EmptyTree
+  fmap f (Node x left right)
+    = Node (f x) (fmap f left) (fmap f right)
+
+-- fmap (*4) (foldr treeInsert EmptyTree [5,7,3])
