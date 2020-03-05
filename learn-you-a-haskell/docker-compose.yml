@@ -1,7 +1,8 @@
 version: "3"
 services:
   haskell:
-    image: haskell:8.8.1
+    build:
+      context: .
     volumes:
       - .:/opt/work
     working_dir: /opt/work
