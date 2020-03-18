@@ -27,3 +27,10 @@ instance Functor CMaybe where
 -- (++) <$> Just "johntra" <*> Just "volta"
 
 -- [(*0),(+100),(^2)] <*> [1,2,3]
+
+-- (*) <$> [2,5,10] <*> [8,10,11]
+
+-- filter (>50) $ (*) <$> [2,5,10] <*> [8,10,11]
+
+myAction :: IO String
+myAction = (++) <$> getLine <*> getLine
