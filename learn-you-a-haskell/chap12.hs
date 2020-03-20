@@ -12,3 +12,12 @@ instance Functor (Pair c) where
 
 -- getPair $ fmap (*100) (Pair (2, 3))
 -- getPair $ fmap reverse (Pair ("london calling", 3))
+
+-- head [3,4,5,undefined,2,undefined]
+
+newtype CoolBool = CoolBool { getCoolBool :: Bool }
+
+helloMe :: CoolBool -> String
+helloMe (CoolBool _) = "hello"
+
+-- helloMe undefined
