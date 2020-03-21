@@ -1,3 +1,5 @@
+import Data.Monoid
+
 -- 12.1 既存の型を新しい型にくるむ
 
 newtype CharList = CharList { getCharList :: [Char] } deriving (Eq, Show)
@@ -21,3 +23,17 @@ helloMe :: CoolBool -> String
 helloMe (CoolBool _) = "hello"
 
 -- helloMe undefined
+
+-- 12.3 モノイドとの遭遇
+
+-- [1,2,3] `mappend` [4,5,6]
+-- mconcat [[1,2],[3,6],[9]]
+
+-- getProduct $ Product 3 `mappend` Product 9
+-- getSum $ Sum 2 `mappend` Sum 9
+
+-- getAny $ Any True `mappend` Any False
+-- getAny $ mempty `mappend` mempty
+
+-- getAll $ mempty `mappend` All True
+-- getAll $ mempty `mappend` All False
