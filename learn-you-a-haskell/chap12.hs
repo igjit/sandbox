@@ -37,3 +37,20 @@ helloMe (CoolBool _) = "hello"
 
 -- getAll $ mempty `mappend` All True
 -- getAll $ mempty `mappend` All False
+
+lengthCompare :: String -> String -> Ordering
+lengthCompare x y = (length x `compare` length y) `mappend`
+                    (x `compare` y)
+
+-- lengthCompare "zen" "ants"
+-- lengthCompare "zen" "ant"
+
+lengthCompare' :: String -> String -> Ordering
+lengthCompare' x y = (length x `compare` length y) `mappend`
+                     (vowels x `compare` vowels y) `mappend`
+                     (x `compare` y)
+  where vowels = length . filter (`elem` "aeiou")
+
+-- lengthCompare' "zen" "anna"
+-- lengthCompare' "zen" "ana"
+-- lengthCompare' "zen" "ann"
