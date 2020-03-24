@@ -54,3 +54,12 @@ lengthCompare' x y = (length x `compare` length y) `mappend`
 -- lengthCompare' "zen" "anna"
 -- lengthCompare' "zen" "ana"
 -- lengthCompare' "zen" "ann"
+
+-- Nothing `mappend` Just "andy"
+-- Just (Sum 3) `mappend` Just (Sum 4)
+
+-- getFirst $ First (Just 'a') `mappend` First (Just 'b')
+-- getFirst $ First Nothing `mappend` First (Just 'b')
+
+-- getFirst . mconcat . map First $ [Nothing, Just 9, Just 10]
+-- getLast . mconcat . map Last $ [Nothing, Just 9, Just 10]
