@@ -1,4 +1,5 @@
 import Data.Monoid
+import qualified Data.Foldable as F
 
 -- 12.1 既存の型を新しい型にくるむ
 
@@ -63,3 +64,35 @@ lengthCompare' x y = (length x `compare` length y) `mappend`
 
 -- getFirst . mconcat . map First $ [Nothing, Just 9, Just 10]
 -- getLast . mconcat . map Last $ [Nothing, Just 9, Just 10]
+
+-- 12.4 モノイドで畳み込む
+
+-- F.foldr (*) 1 [1,2,3]
+-- F.foldl (+) 2 (Just 9)
+-- F.foldr (||) False (Just True)
+
+data Tree a = EmptyTree | Node a (Tree a) (Tree a) deriving (Show)
+
+instance F.Foldable Tree where
+  foldMap f EmptyTree = mempty
+  foldMap f (Node x l r) = F.foldMap f l `mappend`
+                           f x `mappend`
+                           F.foldMap f r
+
+testTree = Node 5
+           (Node 3
+             (Node 1 EmptyTree EmptyTree)
+             (Node 6 EmptyTree EmptyTree)
+           )
+           (Node 9
+            (Node 8 EmptyTree EmptyTree)
+            (Node 10 EmptyTree EmptyTree)
+           )
+
+-- F.foldl (+) 0 testTree
+-- F.foldl (*) 1 testTree
+
+-- getAny $ F.foldMap (\x -> Any $ x == 3) testTree
+-- getAny $ F.foldMap (\x -> Any $ x > 15) testTree
+
+-- F.foldMap (\x -> [x]) testTree
