@@ -1,3 +1,5 @@
+import Control.Monad
+
 -- 13.2 Maybeから始めるモナド
 
 applyMaybe :: Maybe a -> (a -> Maybe b) -> Maybe b
@@ -83,3 +85,50 @@ justH :: Maybe Char
 justH = do
   (x:xs) <- Just "hello"
   return x
+
+-- 13.6 リストモナド
+
+-- [3,4,5] >>= \x -> [x,-x]
+
+-- [1,2] >>= \n -> ['a','b'] >>= \ch -> return (n, ch)
+
+listOfTuples :: [(Int, Char)]
+listOfTuples = do
+  n <- [1,2]
+  ch <- ['a','b']
+  return (n, ch)
+
+-- [ (n, ch) | n <- [1,2], ch <- ['a','b'] ]
+
+-- [ x | x <- [1..50], '7' `elem` show x ]
+
+-- [1..50] >>= (\x -> guard ('7' `elem` show x) >> return x)
+
+sevensOnly :: [Int]
+sevensOnly = do
+  x <- [1..50]
+  guard ('7' `elem` show x)
+  return x
+
+type KnightPos = (Int, Int)
+
+moveKnight :: KnightPos -> [KnightPos]
+moveKnight (c,r) = do
+  (c', r') <- [(c+2,r-1),(c+2,r+1),(c-2,r-1),(c-2,r+1)
+              ,(c+1,r-2),(c+1,r+2),(c-1,r-2),(c-1,r+2)
+              ]
+  guard (c' `elem` [1..8] && r' `elem` [1..8])
+  return (c', r')
+
+-- moveKnight (6, 2)
+
+in3 :: KnightPos -> [KnightPos]
+in3 start = do
+  first <- moveKnight start
+  second <- moveKnight first
+  moveKnight second
+
+canReachIn3 :: KnightPos -> KnightPos -> Bool
+canReachIn3 start end = end `elem` in3 start
+
+-- (6, 2) `canReachIn3` (6, 1)
