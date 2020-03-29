@@ -53,3 +53,33 @@ landRight n (left, right)
 
 -- return (0, 0) >>= landRight 2 >>= landLeft 2 >>= landRight 2
 -- return (0, 0) >>= landLeft 1 >>= landRight 4 >>= landLeft (-1) >>= landRight (-2)
+
+banana :: Pole -> Maybe Pole
+banana _ = Nothing
+
+-- return (0, 0) >>= landLeft 1 >>= banana >>= landRight 1
+-- return (0, 0) >>= landLeft 1 >> Nothing >>= landRight 1
+
+-- 13.5 do記法
+
+-- Just 3 >>= (\x -> Just (show x ++ "!"))
+-- Just 3 >>= (\x -> Just "!" >>= (\y -> Just (show x ++ y)))
+
+foo :: Maybe String
+foo = do
+  x <- Just 3
+  y <- Just "!"
+  Just (show x ++ y)
+
+routine :: Maybe Pole
+routine = do
+  start <- return (0, 0)
+  first <- landLeft 2 start
+  Nothing
+  second <- landRight 2 first
+  landLeft 1 second
+
+justH :: Maybe Char
+justH = do
+  (x:xs) <- Just "hello"
+  return x
