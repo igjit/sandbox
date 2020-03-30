@@ -132,3 +132,13 @@ canReachIn3 :: KnightPos -> KnightPos -> Bool
 canReachIn3 start end = end `elem` in3 start
 
 -- (6, 2) `canReachIn3` (6, 1)
+
+-- 13.7 モナド則
+
+-- return 3 >>= (\x -> Just (x+100000))
+-- return "WoM" >>= (\x -> [x,x,x])
+
+-- Just "move on up" >>= return
+-- [1,2,3,4] >>= return
+
+-- return (0, 0) >>= (\x -> landRight 2 x >>= (\y -> landLeft 2 y >>= (\z -> landRight 2 z)))
