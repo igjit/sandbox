@@ -41,3 +41,23 @@ gcd' a b
       gcd' b (a `mod` b)
 
 -- runWriter (gcd' 8 3)
+
+gcdReverse :: Int -> Int -> Writer [String] Int
+gcdReverse a b
+  | b == 0 = do
+      tell ["Finished with " ++ show a]
+      return a
+  | otherwise = do
+      result <- gcdReverse b (a `mod` b)
+      tell [show a ++ " mod " ++ show b ++ " = " ++ show (a `mod` b)]
+      return result
+
+-- mapM_ putStrLn $ snd $ runWriter (gcdReverse 8 3)
+
+-- 14.2 Reader? それはあなたです!
+
+addStuff :: Int -> Int
+addStuff = do
+  a <- (*2)
+  b <- (+10)
+  return (a+b)
