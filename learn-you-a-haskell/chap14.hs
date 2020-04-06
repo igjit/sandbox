@@ -116,3 +116,10 @@ threeCoins = do
   return (a, b, c)
 
 -- runState threeCoins (mkStdGen 33)
+
+-- 14.4 Errorを壁に
+
+-- Left "boom" >>= \x -> return (x+1)
+-- Left "boom " >>= \x -> Left "no way!"
+-- Right 100 >>= \x -> Left "no way!"
+-- Right 3 >>= \x -> return (x + 100)
