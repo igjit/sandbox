@@ -53,3 +53,13 @@ hist(標本)
 大標本 <- rnorm(n=10000,mean=50,sd=10)
 hist(大標本)
 ```
+
+## 4.5 標本分布
+
+正規分布にしたがう母集団の母平均を推定する
+
+```{r}
+mean(rnorm(n=10,mean=50,sd=10))
+mean(rnorm(n=10,mean=50,sd=10))
+mean(rnorm(n=10,mean=50,sd=10))
+```
