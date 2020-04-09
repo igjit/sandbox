@@ -63,3 +63,27 @@ mean(rnorm(n=10,mean=50,sd=10))
 mean(rnorm(n=10,mean=50,sd=10))
 mean(rnorm(n=10,mean=50,sd=10))
 ```
+
+モンテカルロシミュレーション
+
+```{r}
+標本平均 <- replicate(10000, mean(rnorm(n=10,mean=50,sd=10)))
+hist(標本平均)
+```
+
+```{r}
+誤差絶対値5以下 <- abs(標本平均-50) <= 5
+table(誤差絶対値5以下)
+```
+
+```{r}
+mean(標本平均)
+var(標本平均)
+```
+
+標本平均の標本分布
+
+```{r}
+hist(標本平均,freq=FALSE)
+curve(dnorm(x,mean=50,sd=sqrt(10)),add=TRUE)
+```
