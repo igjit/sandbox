@@ -87,3 +87,65 @@ var(標本平均)
 hist(標本平均,freq=FALSE)
 curve(dnorm(x,mean=50,sd=sqrt(10)),add=TRUE)
 ```
+
+サンプルサイズを10倍にしてみる
+
+```{r}
+標本平均 <- replicate(10000, mean(rnorm(n=100,mean=50,sd=10)))
+var(標本平均)
+```
+
+```{r}
+hist(標本平均)
+```
+
+## 4.6 標本平均以外の標本分布
+
+```{r}
+library(purrr)
+
+samples <- replicate(10000, rnorm(n=10,mean=50,sd=10), simplify = FALSE)
+標本分散 <- samples %>% map_dbl(~ mean((. - mean(.))^2))
+不偏分散 <- samples %>% map_dbl(var)
+```
+
+平均値
+
+```{r}
+mean(標本分散)
+mean(不偏分散)
+```
+
+標準偏差(標準誤差)
+
+```{r}
+sd(標本分散)
+sd(不偏分散)
+```
+
+```{r}
+hist(標本分散,breaks=seq(0,500,10))
+hist(不偏分散,breaks=seq(0,500,10))
+```
+
+```{r}
+table(標本分散>=200)
+table(不偏分散>=200)
+```
+
+中央値の標本分布
+
+```{r}
+標本平均 <- samples %>% map_dbl(mean)
+標本中央値 <- samples %>% map_dbl(median)
+```
+
+```{r}
+mean(標本平均)
+mean(標本中央値)
+```
+
+```{r}
+sd(標本平均)
+sd(標本中央値)
+```
