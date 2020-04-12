@@ -1,0 +1,35 @@
+---
+output:
+  github_document:
+    md_extensions: "+ignore_line_breaks"
+    pandoc_args: "--atx-headers"
+---
+
+# 第5章 統計的仮説検定
+
+## 5.3 標準正規分布を用いた検定
+
+```{r}
+心理学テスト <- c(13,14,7,12,10,6,8,15,4,14,9,6,10,12,5,12,8,8,12,15)
+Z統計量 <- (mean(心理学テスト)-12) / sqrt(10/length(心理学テスト))
+Z統計量
+```
+
+```{r}
+qnorm(0.025)
+qnorm(0.025,lower.tail=FALSE)
+```
+
+```{r}
+curve(dnorm(x),-3,3)
+abline(v=qnorm(0.025))
+abline(v=qnorm(0.975))
+```
+
+p値を求める
+
+```{r}
+2*pnorm(2.828427,lower.tail=FALSE)
+```
+
+有意水準0.05よりも小さいので、帰無仮説は棄却される。
