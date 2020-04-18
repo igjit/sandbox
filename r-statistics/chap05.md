@@ -174,3 +174,143 @@ chisq.test(履修B,correct=FALSE)
     ## X-squared = 19.048, df = 1, p-value = 1.275e-05
 
 サンプルサイズが大きくなると、検定の結果は有意になりやすい
+
+## 練習問題
+
+(1)
+
+``` r
+height <- c(165,150,170,168,159,170,167,178,155,159,
+            161,162,166,171,155,160,168,172,155,167)
+t.test(height, mu = 170)
+```
+
+    ## 
+    ##  One Sample t-test
+    ## 
+    ## data:  height
+    ## t = -3.8503, df = 19, p-value = 0.001079
+    ## alternative hypothesis: true mean is not equal to 170
+    ## 95 percent confidence interval:
+    ##  160.584 167.216
+    ## sample estimates:
+    ## mean of x 
+    ##     163.9
+
+(2)
+
+``` r
+時間 <- c(1,3,10,12,6,3,8,4,1,5)
+テスト <- c(20,40,100,80,50,50,70,50,10,60)
+```
+
+``` r
+cor.test(時間, テスト)
+```
+
+    ## 
+    ##  Pearson's product-moment correlation
+    ## 
+    ## data:  時間 and テスト
+    ## t = 6.1802, df = 8, p-value = 0.0002651
+    ## alternative hypothesis: true correlation is not equal to 0
+    ## 95 percent confidence interval:
+    ##  0.6542283 0.9786369
+    ## sample estimates:
+    ##       cor 
+    ## 0.9092974
+
+(3)
+
+``` r
+cor.test(時間, テスト, method="spearman")
+```
+
+    ## Warning in cor.test.default(時間, テスト, method = "spearman"): Cannot compute
+    ## exact p-value with ties
+
+    ## 
+    ##  Spearman's rank correlation rho
+    ## 
+    ## data:  時間 and テスト
+    ## S = 10.182, p-value = 5.887e-05
+    ## alternative hypothesis: true rho is not equal to 0
+    ## sample estimates:
+    ##       rho 
+    ## 0.9382895
+
+``` r
+cor.test(時間, テスト, method="kendall")
+```
+
+    ## Warning in cor.test.default(時間, テスト, method = "kendall"): Cannot compute
+    ## exact p-value with ties
+
+    ## 
+    ##  Kendall's rank correlation tau
+    ## 
+    ## data:  時間 and テスト
+    ## z = 3.2937, p-value = 0.0009889
+    ## alternative hypothesis: true tau is not equal to 0
+    ## sample estimates:
+    ##       tau 
+    ## 0.8471174
+
+(4)
+
+``` r
+和洋 <- c("洋食","和食","和食","洋食","和食","洋食","洋食","和食","洋食","洋食",
+          "和食","洋食","和食","洋食","和食","和食","洋食","洋食","和食","和食")
+甘辛 <- c("甘党","辛党","甘党","甘党","辛党","辛党","辛党","辛党","甘党","甘党",
+          "甘党","甘党","辛党","辛党","甘党","辛党","辛党","甘党","辛党","辛党")
+
+クロス集計 <- table(和洋, 甘辛)
+chisq.test(クロス集計, correct=FALSE)
+```
+
+    ## Warning in chisq.test(クロス集計, correct = FALSE): Chi-squared approximation
+    ## may be incorrect
+
+    ## 
+    ##  Pearson's Chi-squared test
+    ## 
+    ## data:  クロス集計
+    ## X-squared = 1.8182, df = 1, p-value = 0.1775
+
+(5)
+
+``` r
+国語 <- c(60,40,30,70,55)
+社会 <- c(80,25,35,70,50)
+cor.test(国語, 社会)
+```
+
+    ## 
+    ##  Pearson's product-moment correlation
+    ## 
+    ## data:  国語 and 社会
+    ## t = 2.6952, df = 3, p-value = 0.07408
+    ## alternative hypothesis: true correlation is not equal to 0
+    ## 95 percent confidence interval:
+    ##  -0.1590624  0.9892731
+    ## sample estimates:
+    ##      cor 
+    ## 0.841263
+
+``` r
+国語2 <- rep(国語, 2)
+社会2 <- rep(社会, 2)
+cor.test(国語2, 社会2)
+```
+
+    ## 
+    ##  Pearson's product-moment correlation
+    ## 
+    ## data:  国語2 and 社会2
+    ## t = 4.4013, df = 8, p-value = 0.002283
+    ## alternative hypothesis: true correlation is not equal to 0
+    ## 95 percent confidence interval:
+    ##  0.4499858 0.9615658
+    ## sample estimates:
+    ##      cor 
+    ## 0.841263
