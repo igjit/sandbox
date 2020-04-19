@@ -1,0 +1,32 @@
+---
+output:
+  github_document:
+    md_extensions: "+ignore_line_breaks"
+    pandoc_args: "--atx-headers"
+---
+
+# 第6章 2つの平均値を比較する
+
+## 6.2 独立な2群のt検定
+
+```{r}
+統計1男 <- c(6,10,6,10,5,3,5,9,3,3)
+統計1女 <- c(11,6,11,9,7,5,8,7,7,9)
+プール標準偏差 <- sqrt(((length(統計1男)-1)*var(統計1男)+(length(統計1女)-1)*var(統計1女)) / (length(統計1男)+length(統計1女)-2))
+プール標準偏差
+```
+
+```{r}
+t統計量 <- (mean(統計1男)-mean(統計1女)) / (プール標準偏差*sqrt(1/length(統計1男)+1/length(統計1女)))
+t統計量
+```
+
+p値
+
+```{r}
+2*pt(-1.842885,18)
+```
+
+```{r}
+t.test(統計1男,統計1女,var.equal=TRUE)
+```
