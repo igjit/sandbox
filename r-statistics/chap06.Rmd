@@ -40,3 +40,9 @@ t.test(統計1男,統計1女,var.equal=TRUE)
 クラスB <- c(67, 63, 50, 60, 61, 69, 43, 58, 36, 29)
 var.test(クラスA, クラスB)
 ```
+
+Welchの検定
+
+```{r}
+t.test(クラスA, クラスB, var.equal=FALSE)
+```
