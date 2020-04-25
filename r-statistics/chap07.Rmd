@@ -1,0 +1,44 @@
+---
+output:
+  github_document:
+    md_extensions: "+ignore_line_breaks"
+    pandoc_args: "--atx-headers"
+---
+
+# 第7章 分散分析
+
+## 7.1 一元配置分散分析(対応なし)
+
+F分布
+
+```{r}
+curve(df(x,3,16),0,5)
+```
+
+```{r}
+A <- c(15,9,18,14,18)
+B <- c(13,8,8,12,7)
+C <- c(10,6,11,7,12)
+D <- c(10,7,3,5,7)
+
+統計テスト2 <- c(A,B,C,D)
+統計テスト2
+```
+
+```{r}
+指導法 <- c(rep("A",5),rep("B",5),rep("C",5),rep("D",5))
+指導法2 <- factor(指導法)
+指導法2
+```
+
+```{r}
+oneway.test(統計テスト2 ~ 指導法2, var.equal=TRUE)
+```
+
+```{r}
+summary(aov(統計テスト2 ~ 指導法2))
+```
+
+```{r}
+anova(lm(統計テスト2 ~ 指導法2))
+```
